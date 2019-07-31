@@ -1,2 +1,2 @@
 # ver
-Vassals Expanded and Rewored
+Vassals Expanded and Reworked
