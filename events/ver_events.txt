@@ -1194,8 +1194,27 @@ country_event = {
 
 	is_triggered_only = yes
 
+	immediate = {
+		set_variable = { which = bloodpopulation value = 0 }
+		log = "ISSO DEVERIA SER ZERO [This.bloodpopulation]"
+		every_owned_pop = {
+			PREV = {
+				change_variable = { which = bloodpopulation value = 1 }
+			}
+		}
+
+		divide_variable = { which = bloodpopulation value = 10 }
+
+		log = "FUNFOU A DIVISAO [This.bloodpopulation]"
+
+		while = {
+			count = bloodpopulation
+			add_resource = { influence = 10 }
+		}
+	}
+
 	option = {
 		name = ver.40.option
-		# Effects
+		add_resource = bloodpopulation
 	}
 }
