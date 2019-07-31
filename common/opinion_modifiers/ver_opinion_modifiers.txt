@@ -1,0 +1,66 @@
+ver_triggered_opinion_serfdom = {
+  trigger = {
+    is_subject_type = verserf
+    FROM = {
+      any_subject = { is_same_value = ROOT }
+    }
+  }
+
+  opinion = {
+    base = -100
+  }
+}
+
+# overlord taxes
+ver_triggered_opinion_light_overlord_taxes = {
+  trigger = {
+    is_subject = yes
+    FROM = {
+      any_subject = { is_same_value = ROOT }
+      has_policy_flag = ver_light_taxes
+    }
+  }
+
+  opinion = {
+    base = -25
+  }
+}
+ver_triggered_opinion_moderate_overlord_taxes = {
+  trigger = {
+    is_subject = yes
+    FROM = {
+      any_subject = { is_same_value = ROOT }
+      has_policy_flag = ver_moderate_taxes
+    }
+  }
+
+  opinion = {
+    base = -50
+  }
+}
+ver_triggered_opinion_heavy_overlord_taxes = {
+  trigger = {
+    is_subject = yes
+    FROM = {
+      any_subject = { is_same_value = ROOT }
+      has_policy_flag = ver_heavy_taxes
+    }
+  }
+
+  opinion = {
+    base = -100
+  }
+}
+ver_triggered_opinion_burdensome_overlord_taxes = {
+  trigger = {
+    is_subject = yes
+    FROM = {
+      any_subject = { is_same_value = ROOT }
+      has_policy_flag = ver_burdensome_taxes
+    }
+  }
+
+  opinion = {
+    base = -200
+  }
+}

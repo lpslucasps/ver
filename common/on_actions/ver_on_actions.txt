@@ -1,0 +1,22 @@
+
+# No scope, like on_game_start
+on_monthly_pulse = {
+	events = {
+		vermain.10 # Transform Vassals into custom subject types
+		vermain.11 # Removes no longer applicable modifiers
+		vermain.12 # Reapply Demilitarized modifier.
+		vermain.13 # Look for machine empires with Parallel Processors and apply bonuses.
+		vermain.2 # Select all countries which are taxing its subjects
+		vermain.24 # Removes bonus trade value when not applicable anymore
+		vermain.25 # Apply taxes to any newly-acquired subject.
+	}
+}
+
+# A war has ended
+# Root = Loser
+# From = Main Winner
+on_war_ended = {
+	events = {
+		ver.10 # Transform Vassals into custom subject types
+	}
+}

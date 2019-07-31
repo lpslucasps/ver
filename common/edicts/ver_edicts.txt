@@ -1,0 +1,30 @@
+# Proxy war: make your Puppet States declare war on a neighboring country
+
+ver_proxy_war = {
+  resources = {
+    category = edicts
+    cost = {
+      influence = 300
+    }
+  }
+
+  length = 0
+
+  effect = {
+    custom_tooltip = edict_ver_proxy_war_effect
+    hidden_effect = { country_event = { id = ver.30 } }
+  }
+
+  potential = {
+    is_overlord = yes
+    any_subject = { is_subject_type = verpuppet }
+  }
+
+  allow = {
+    NOT = { has_country_flag = ver_called_proxy_war }
+  }
+
+  ai_weight = {
+    weight = 0
+  }
+}

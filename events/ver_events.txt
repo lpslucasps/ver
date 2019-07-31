@@ -1,0 +1,1151 @@
+
+namespace = ver
+
+### New subject empire
+
+# ver.10: Triggered by on_war_ended
+country_event = {
+	id = ver.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { is_overlord = yes }
+			every_subject = {
+				limit = { is_subject_type = vassal }
+				country_event = { id = ver.11 days = 1}
+			}
+		}
+		else = {
+		}
+	}
+}
+
+# ver.11: Call event for overlord. Triggered by ver.10
+country_event = {
+	id = ver.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		overlord = {
+			is_country_type = default
+			NOT =	{ has_authority = auth_corporate }
+		}
+	}
+
+	immediate = {
+		overlord = { country_event = { id = ver.100 } }
+	}
+}
+
+# ver.12: Decide which kind of subject empire the new vassal will become. Triggered by ver.11
+country_event = {
+	id = ver.100
+	title = ver.100.name
+	desc = ver.100.desc
+	picture = GFX_evt_arguing_senate
+	show_sound = event_conversation
+	location = from
+
+	is_triggered_only = yes
+
+	option = { # Transform into Puppet State (Authoritarian)
+		name = ver.100.puppet
+		custom_tooltip = ver.100.puppet.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_authoritarian
+				has_ethic = ethic_fanatic_authoritarian
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_authoritarian = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_authoritarian
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_shadow_council
+			}
+			modifier = {
+				factor = 0.5
+				is_xenophile = yes
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verpuppet
+				}
+				add_modifier = { modifier = ver_puppet_state days = -1}
+			}
+		}
+	}
+
+	option = { # Transform into Sister Republic (Egalitarian)
+		name = ver.100.sister
+		custom_tooltip = ver.100.sister.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_egalitarian
+				has_ethic = ethic_fanatic_egalitarian
+			}
+			from = {
+				NOT = {
+					has_ethic = ethic_gestalt_consciousness
+				}
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_egalitarian = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_egalitarian
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_beacon_of_liberty
+			}
+			modifier = {
+				factor = 10
+				has_ai_personality = democratic_crusaders
+			}
+			modifier = {
+				factor = 0.5
+				is_xenophobe = yes
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = versister
+				}
+				if = {
+					limit = {	has_ethic = ethic_fanatic_authoritarian }
+					change_government = {
+						authority = auth_dictatorial
+						civics = {
+							civic = civic_staged_elections
+							civic = civic_police_state
+						}
+					}
+				}
+				else_if = {
+					limit = {	has_ethic = ethic_authoritarian	}
+					change_government = {
+						authority = auth_oligarchic
+						civics = {
+							civic = civic_staged_elections
+							civic = random
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						is_authoritarian = no
+						NOT = { has_authority = auth_democratic }
+					}
+					change_government = {
+						authority = auth_democratic
+					}
+				}
+			}
+		}
+	}
+
+	option = { # Transform into Jr. Partner (Materialist)
+		name = ver.100.jrpartner
+		custom_tooltip = ver.100.jrpartner.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_materialist
+				has_ethic = ethic_fanatic_materialist
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_materialist = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_materialist
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_technocracy
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verjrpartner
+				}
+			}
+		}
+	}
+
+	option = { # Transform into Foederatus (Militarist)
+		name = ver.100.foederatus
+		custom_tooltip = ver.100.foederatus.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_militarist
+				has_ethic = ethic_fanatic_militarist
+			}
+			from = {
+				NOT = {
+					has_ethic = ethic_pacifist
+					has_ethic = ethic_fanatic_pacifist
+				}
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_militarist = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_militarist
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_warrior_culture
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verfoederatus
+				}
+				add_modifier = { modifier = ver_military_subsidies days = -1 }
+			}
+		}
+	}
+
+	option = { # Transform into Autonomous Region (Pacifist)
+		name = ver.100.autonomous
+		custom_tooltip = ver.100.autonomous.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_pacifist
+				has_ethic = ethic_fanatic_pacifist
+				has_civic = civic_machine_servitor
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOR = {
+					is_pacifist = yes
+					has_civic = civic_machine_servitor
+				}
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_pacifist
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_agrarian_idyll
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verautonomous
+				}
+				add_modifier = { modifier = ver_demilitarized days = -1 }
+			}
+		}
+	}
+
+	option = { # Transform into Disciple (Spiritualist)
+		name = ver.100.disciple
+		custom_tooltip = ver.100.disciple.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_spiritualist
+				has_ethic = ethic_fanatic_spiritualist
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_spiritualist = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_spiritualist
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_exalted_priesthood
+			}
+			modifier = {
+				factor = 10
+				has_ai_personality = evangelising_zealots
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verdisciple
+				}
+				add_modifier = { modifier = ver_overlord_indoctrination days = -1}
+			}
+		}
+	}
+
+	option = { # Transform into Beneficiary (Xenophile)
+		name = ver.100.beneficiary
+		custom_tooltip = ver.100.beneficiary.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_xenophile
+				has_ethic = ethic_fanatic_xenophile
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_xenophile = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_xenophile
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_free_haven
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verbeneficiary
+				}
+			}
+		}
+	}
+
+	option = { # Transform into Serf (Xenophobe)
+		name = ver.100.serf
+		custom_tooltip = ver.100.serf.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_xenophobe
+				has_ethic = ethic_fanatic_xenophobe
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_xenophobe = no
+			}
+			modifier = {
+				factor = 2
+				has_ethic = ethic_fanatic_xenophobe
+			}
+			modifier = {
+				factor = 3
+				has_civic = civic_slaver_guilds
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verserf
+				}
+			}
+		}
+	}
+
+	option = { # Transform into Appendage (Hive Mind)
+		name = ver.100.appendage
+		custom_tooltip = ver.100.appendage.tooltip
+		trigger = {
+			has_authority = auth_hive_mind
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_authority = auth_hive_mind }
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verappendage
+				}
+			}
+		}
+	}
+
+	option = { # Transform into Organic Auxiliary (Machine Intelligence)
+		name = ver.100.organic
+		custom_tooltip = ver.100.organic.tooltip
+		trigger = {
+			has_authority = auth_machine_intelligence
+			NOT = { has_civic = civic_machine_servitor }
+			from = { NOT = { has_authority = auth_machine_intelligence } }
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = {
+					has_authority = auth_machine_intelligence
+					NOT = { has_civic = civic_machine_servitor }
+				}
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verorganic
+				}
+			}
+		}
+	}
+
+	option = { # Transform into Parallel Processor (Machine Intelligence)
+		name = ver.100.parallel
+		custom_tooltip = ver.100.parallel.tooltip
+		trigger = {
+			has_authority = auth_machine_intelligence
+			from = { has_authority = auth_machine_intelligence }
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = {
+					has_authority = auth_machine_intelligence
+					from = {has_authority = auth_machine_intelligence }
+				}
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verparallel
+				}
+			}
+			country_event = { id = vermain.14 }
+		}
+	}
+}
+
+### Subjects taxation
+
+# ver.20: Remove all taxes. Called by policy change.
+country_event = {
+	id = ver.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_subject = {
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+		}
+		country_event = { id = vermain.23 } # Remove all trade bonuses from Overlord
+	}
+}
+
+# ver.21: Apply light taxes. Called by policy change.
+country_event = {
+	id = ver.21
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_subject = {
+			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+			add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
+		}
+		country_event = { id = vermain.20 }
+	}
+}
+
+# ver.22: Apply moderate taxes. Called by policy change.
+country_event = {
+	id = ver.22
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_subject = {
+			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+			add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
+		}
+		country_event = { id = vermain.20 }
+	}
+}
+
+# ver.23: Apply heavy overlord taxes. Called by policy change.
+country_event = {
+	id = ver.23
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_subject = {
+			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+			add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
+		}
+		country_event = { id = vermain.20 }
+	}
+}
+
+# ver.24: Apply burdensome overlord taxes. Called by policy change.
+country_event = {
+	id = ver.24
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_subject = {
+			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
+		}
+		country_event = { id = vermain.20 }
+	}
+}
+
+### Proxy Wars
+
+# ver.30: Save Puppet States as event targets
+country_event = {
+	id = ver.30
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		save_event_target_as = ver_puppeteer # For use later
+		set_variable = { which = ver_total_puppet_states value = 0 }
+
+		# Count how many valid Puppet States there are
+		every_subject = {
+			limit = {
+				is_subject_type = verpuppet
+				is_at_war = no
+				any_neighbor_country = {
+					is_country_type = default
+					NOR = {
+						is_same_value = event_target:ver_puppeteer
+						has_defensive_pact = event_target:ver_puppeteer
+						is_in_federation_with = event_target:ver_puppeteer
+						AND = {
+							is_subject = yes
+							OR = {
+								overlord = { is_same_value = event_target:ver_puppeteer }
+								overlord = { has_defensive_pact = event_target:ver_puppeteer }
+								overlord = { is_in_federation_with = event_target:ver_puppeteer }
+							}
+						}
+					}
+				}
+			}
+			set_country_flag = ver_puppet_counted
+			overlord = { change_variable = { which = ver_total_puppet_states value = 1 } }
+		}
+
+		# Next, we save each puppet as an Event Target
+		# As the scripting language doesn't have proper loops, we use a lot of ifs and hope no one ever has more than 10 puppets.
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 1 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_1
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 2 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_2
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 3 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_3
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 4 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_4
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 5 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_5
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 6 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_6
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 7 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_7
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 8 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_8
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 9 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_9
+			}
+		}
+		if = {
+			limit = { check_variable = { which = ver_total_puppet_states value >= 10 } }
+			random_subject = {
+				limit = { has_country_flag = ver_puppet_counted }
+				remove_country_flag = ver_puppet_counted
+				save_event_target_as = puppet_10
+			}
+		}
+
+		country_event = { id = ver.31 }
+	}
+}
+
+# ver.31: List Puppet States
+country_event = {
+	id = ver.31
+	title = ver.31.name
+	desc = {
+		trigger = { check_variable = { which = ver_total_puppet_states value > 0 } }
+		text = ver.31.desc
+	}
+	desc = {
+		trigger = { check_variable = { which = ver_total_puppet_states value = 0 } }
+		text = ver.31.desc.fail
+	}
+	picture = GFX_evt_board_meeting
+	show_sound = event_laboratory_sound
+	location = ROOT
+
+	is_triggered_only = yes
+
+	# No valid target
+	option = {
+		name = ver.31.fail
+		trigger = { check_variable = { which = ver_total_puppet_states value = 0 } }
+		add_resource = { influence = 300 }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+	}
+
+	# Now we show a list of the puppet states to the player
+	option = {
+		name = ver.31.puppet_1
+		custom_tooltip = ver.31.puppet_1.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 1 } }
+		hidden_effect = {
+			event_target:puppet_1 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_2
+		custom_tooltip = ver.31.puppet_2.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 2 } }
+		hidden_effect = {
+			event_target:puppet_2 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_3
+		custom_tooltip = ver.31.puppet_3.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 3 } }
+		hidden_effect = {
+			event_target:puppet_3 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_4
+		custom_tooltip = ver.31.puppet_4.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 4 } }
+		hidden_effect = {
+			event_target:puppet_4 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_5
+		custom_tooltip = ver.31.puppet_5.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 5 } }
+		hidden_effect = {
+			event_target:puppet_5 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_6
+		custom_tooltip = ver.31.puppet_6.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 6 } }
+		hidden_effect = {
+			event_target:puppet_6 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_7
+		custom_tooltip = ver.31.puppet_7.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 7 } }
+		hidden_effect = {
+			event_target:puppet_7 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_8
+		custom_tooltip = ver.31.puppet_8.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 8 } }
+		hidden_effect = {
+			event_target:puppet_8 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_9
+		custom_tooltip = ver.31.puppet_9.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 9 } }
+		hidden_effect = {
+			event_target:puppet_9 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+	option = {
+		name = ver.31.puppet_10
+		custom_tooltip = ver.31.puppet_10.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value >= 10 } }
+		hidden_effect = {
+			event_target:puppet_10 = {
+				country_event = { id = ver.32 }
+			}
+		}
+	}
+
+	option = {
+		name = ver.31.back
+		custom_tooltip = ver.31.back.tooltip
+		trigger = { check_variable = { which = ver_total_puppet_states value > 0 } }
+	}
+}
+
+# ver.32: Save valid targets as event targets
+country_event = {
+	id = ver.32
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { which = ver_puppet_neighbors value = 0 }
+
+		every_neighbor_country = {
+			limit = {
+				is_country_type = default
+				NOR = {
+					is_same_value = event_target:ver_puppeteer
+					has_defensive_pact = event_target:ver_puppeteer
+					is_in_federation_with = event_target:ver_puppeteer
+					AND = {
+						is_subject = yes
+						OR = {
+							overlord = { is_same_value = event_target:ver_puppeteer }
+							overlord = { has_defensive_pact = event_target:ver_puppeteer }
+							overlord = { is_in_federation_with = event_target:ver_puppeteer }
+						}
+					}
+				}
+			}
+			PREV = { change_variable = { which = ver_puppet_neighbors value = 1 } }
+			set_country_flag = puppet_neighbor_counted
+		}
+
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 1 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_1
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 2 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_2
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 3 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_3
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 4 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_4
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 5 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_5
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 6 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_6
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 7 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_7
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 8 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_8
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 9 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_9
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 10 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_10
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 11 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_11
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 12 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_12
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 13 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_13
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 14 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_14
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 15 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_15
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 16 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_16
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 17 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_17
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 18 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_18
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 19 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_19
+				}
+		}
+		if = {
+			limit = { check_variable = { which = ver_puppet_neighbors value >= 20 } }
+				random_neighbor_country = {
+					limit = { has_country_flag = puppet_neighbor_counted }
+					remove_country_flag = puppet_neighbor_counted
+					save_event_target_as = puppet_neighbor_20
+				}
+		}
+
+		event_target:ver_puppeteer = { country_event = { id = ver.33 } }
+	}
+}
+
+# ver.33: Now let the player choose who to attack!
+country_event = {
+	id = ver.33
+	title = ver.33.name
+	desc = ver.33.desc
+	picture = GFX_evt_federation_fleet
+	location = from
+
+	is_triggered_only = yes
+
+	option = {
+		name = ver.33.puppet_neighbor_1
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 1 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_1 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_2
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 2 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_2 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_3
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 3 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_3 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_4
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 4 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_4 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_5
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 5 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_5 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_6
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 6 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_6 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_7
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 7 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_7 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_8
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 8 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_8 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_9
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 9 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_9 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_10
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 10 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_10 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_11
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 11 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_11 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_12
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 12 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_12 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_13
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 13 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_13 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_14
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 14 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_14 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_15
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 15 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_15 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_16
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 16 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_16 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_17
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 17 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_17 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_18
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 18 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_18 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_19
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 19 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_19 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.puppet_neighbor_20
+		trigger = { from = { check_variable = { which = ver_puppet_neighbors value >= 20 } } }
+		set_timed_country_flag = { flag = ver_called_proxy_war days = 1800 }
+		FROM = { declare_war = { target = event_target:puppet_neighbor_20 attacker_war_goal = wg_humiliation } }
+	}
+	option = {
+		name = ver.33.back
+		custom_tooltip = ver.33.back.tooltip
+		hidden_effect = { country_event = { id = ver.31 } }
+	}
+}
