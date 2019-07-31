@@ -465,6 +465,38 @@ country_event = {
 			country_event = { id = vermain.14 }
 		}
 	}
+
+	option = { # Transform into Blood Tributary (slaver or barbaric)
+		name = ver.100.blood
+		custom_tooltip = ver.100.blood.tooltip
+		trigger = {
+			OR = {
+				has_civic = civic_barbaric_despoilers
+				has_civic = civic_slaver_guilds
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOR = {
+					has_civic = civic_barbaric_despoilers
+					has_civic = civic_slaver_guilds
+				}
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verblood
+				}
+			}
+			country_event = { id = ver.40 }
+		}
+	}
+
+
 }
 
 ### Subjects taxation
@@ -1147,5 +1179,23 @@ country_event = {
 		name = ver.33.back
 		custom_tooltip = ver.33.back.tooltip
 		hidden_effect = { country_event = { id = ver.31 } }
+	}
+}
+
+### Blood tax
+
+# ver.40: the Blood Tax
+country_event = {
+	id = ver.40
+	title = ver.40.name
+	desc = ver.40.desc
+	picture = GFX_evt_federation_fleet
+	location = ROOT
+
+	is_triggered_only = yes
+
+	option = {
+		name = ver.40.option
+		# Effects
 	}
 }
