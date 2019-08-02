@@ -900,3 +900,24 @@ event = {
     }
   }
 }
+
+# vermain.40: The Blood Tax pulse (on_five_year_pulse)
+event = {
+  id = vermain.40
+  hide_window = yes
+  is_triggered_only = yes
+
+  immediate = {
+    every_country = {
+      limit = {
+        any_subject = { is_subject_type = verblood }
+        NOT = { has_country_flag = ver_recent_blood_tribute }
+      }
+      random_subject = {
+        limit = { is_subject_type = verblood }
+        save_event_target_as = ver_blood_tributary
+      }
+      country_event = { id = ver.40 days = 300 random = 600 }
+    }
+  }
+}
