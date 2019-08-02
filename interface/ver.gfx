@@ -53,4 +53,9 @@ spriteTypes = {
     name = "GFX_diplomacy_status_is_verparallel"
     texturefile = "gfx/interface/icons/diplomacy/diplomacy_isverparallel.dds"
   }
+
+  spriteType = {
+    name = "GFX_diplomacy_status_is_verblood"
+    texturefile = "gfx/interface/icons/diplomacy/diplomacy_isverblood.dds"
+  }
 }

@@ -465,6 +465,40 @@ country_event = {
 			country_event = { id = vermain.14 }
 		}
 	}
+
+	option = { # Transform into Blood Tributary (slaver or barbaric)
+		name = ver.100.blood
+		custom_tooltip = ver.100.blood.tooltip
+		trigger = {
+			OR = {
+				has_civic = civic_barbaric_despoilers
+				has_civic = civic_slaver_guilds
+			}
+			NOT = { any_subject = { is_subject_type = verblood } }
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOR = {
+					has_civic = civic_barbaric_despoilers
+					has_civic = civic_slaver_guilds
+				}
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = ROOT
+					subject_type = verblood
+				}
+				save_event_target_as = ver_blood_tributary
+			}
+			country_event = { id = ver.40 }
+		}
+	}
+
+
 }
 
 ### Subjects taxation
@@ -1147,5 +1181,125 @@ country_event = {
 		name = ver.33.back
 		custom_tooltip = ver.33.back.tooltip
 		hidden_effect = { country_event = { id = ver.31 } }
+	}
+}
+
+### Blood tax
+
+# ver.40: the Blood Tax
+country_event = {
+	id = ver.40
+	title = ver.40.name
+	desc = ver.40.desc
+	picture = GFX_evt_burning_settlement
+	location = ROOT
+
+	is_triggered_only = yes
+
+	trigger = { any_subject = { is_subject_type = verblood } }
+
+	immediate = {
+		set_variable = { which = ver_blood_tributary_population value = 0 }
+		event_target:ver_blood_tributary = {
+			every_owned_pop = {
+				ROOT = {
+					change_variable = { which = ver_blood_tributary_population value = 1 }
+				}
+			}
+		}
+
+		divide_variable = { which = ver_blood_tributary_population value = 10 }
+	}
+
+	# Distribute them among our worlds
+	option = {
+		name = ver.40.distribute
+		custom_tooltip =  ver.40.distribute.tooltip
+
+		hidden_effect = {
+			while = {
+				count = ver_blood_tributary_population
+
+				event_target:ver_blood_tributary = {
+					random_owned_planet = {
+						limit = {
+							num_pops > 1
+						}
+						random_pop = {
+							species = { save_event_target_as = blood_tribute_species }
+							kill_pop = yes
+						}
+					}
+				}
+
+				if = {
+					limit = { any_planet = { free_housing > 0 } }
+					random_owned_planet = {
+						limit = { free_housing > 0 }
+						create_pop = {
+							species = event_target:blood_tribute_species
+						}
+					}
+				}
+				else = {
+					random_owned_planet = {
+						create_pop = {
+							species = event_target:blood_tribute_species
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	# Distribute them among our Thrall worlds
+	option = {
+		name = ver.40.thrall
+		custom_tooltip =  ver.40.thrall.tooltip
+		trigger = { any_planet = { has_modifier = slave_colony } }
+
+		hidden_effect = {
+			while = {
+				count = ver_blood_tributary_population
+
+				event_target:ver_blood_tributary = {
+					random_owned_planet = {
+						limit = {
+							num_pops > 1
+						}
+						random_pop = {
+							species = { save_event_target_as = blood_tribute_species }
+							kill_pop = yes
+						}
+					}
+				}
+
+				if = {
+					limit = { any_planet = { free_housing > 0 } }
+					random_owned_planet = {
+						limit = { free_housing > 0 }
+						create_pop = {
+							species = event_target:blood_tribute_species
+						}
+					}
+				}
+				else = {
+					random_owned_planet = {
+						create_pop = {
+							species = event_target:blood_tribute_species
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			set_timed_country_flag = { flag = ver_recent_blood_tribute days = 5400 }
+			set_variable = { which = ver_blood_tributary_population value = 0 }
+		}
 	}
 }

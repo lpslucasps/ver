@@ -20,3 +20,10 @@ on_war_ended = {
 		ver.10 # Transform Vassals into custom subject types
 	}
 }
+
+# No scope, like on_game_start
+on_five_year_pulse = {
+	events = {
+		vermain.40 # The Blood Tax
+	}
+}

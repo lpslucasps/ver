@@ -22,6 +22,8 @@
   SUBJECT_DESC_verorganic:0 "Organic Auxiliaries have no diplomatic freedom, join their Overlord's wars and pay §Y25%§! of their monthly Energy as tribute. They can't be integrated and are protected by their Overlord."
   SUBJECT_verparallel:0 "Parallel Processor"
   SUBJECT_DESC_verparallel:0 "Parallel Processors have no diplomatic freedom, join their Overlord's wars, are protected and can be integrated. The Overlord receives §G+5%§ research speed for each Each Parallel Processor in their possession, up to a maximum of 20%."
+  SUBJECT_verblood:0 "Blood Tributary"
+  SUBJECT_DESC_verblood:0 "Blood Tributaries pay a special tribute, the blood tax. Between every 15 and 20 years, 10% of their population is sent to their Overlord as tribute. As they are seem as little more than a source of slaves by their Overlord, they have no diplomatic freedom whatsoever, being unable to expand or wage war independently.\n\nCan Expand: £trigger_no£\nCan Wage War: £trigger_no£\nProtected: £trigger_yes£\nJoins Overlord's Wars: £trigger_yes£\nCan Integrate: £trigger_no£\nTribute: §Y10%§! £pops£ §HPops§! every 15-20 years\nSpecial Effect: §R-1000§! Opinion towards Overlord"
   ##### Events #####
   ## Becoming a vassal
   ver.100.name:0 "New subject empire"
@@ -48,6 +50,8 @@
   ver.100.organic.tooltip:0 "Transform §Y[From.GetName]§! into a §YOrganic Auxiliary§!.\n\n$SUBJECT_DESC_verorganic$\n\nCan Expand: £trigger_no£\nCan Wage War: £trigger_no£\nProtected: £trigger_yes£\nJoins Overlord's Wars: £trigger_yes£\nCan Integrate: £trigger_no£\nTribute: §Y25%§! £energy£ §HEnergy§!"
   ver.100.parallel:0 "The more cores, the better."
   ver.100.parallel.tooltip:0 "Transform §Y[From.GetName]§! into a §YParallel Processor§!.\n\n$SUBJECT_DESC_verparallel$\n\nCan Expand: £trigger_no£\nCan Wage War: £trigger_no£\nProtected: £trigger_yes£\nJoins Overlord's Wars: £trigger_yes£\nCan Integrate: £trigger_yes£\nTribute: None\nSpecial Effect: §S(Overlord)§! §G+5%§ Research Speed for each Each Parallel Processor (up to 20%)"
+  ver.100.blood:0 "We shall put them to good use."
+  ver.100.blood.tooltip:0 "Transform §Y[From.GetName]§! into a §YBlood Tributary§!.\n\n$SUBJECT_DESC_verblood$"
   ## Proxy War
   ver.31.name:0 "Proxy War"
   ver.31.desc:0 "All of our client kings, hand-picked dictators and bought elected leaders from foreign countries have been assembled. Not a word was spoken but they already know what this is all about: it's time to attack one of our enemies. The only question remaining is, who'll do the honors?"
@@ -99,6 +103,13 @@
   ver.33.puppet_neighbor_20:0 "[puppet_neighbor_20.GetName]"
   ver.33.back:0 "Thinking better, the [FROM.GetName] may not be up to the task."
   ver.33.back.tooltip:0 "Show a list of all available Puppet States again."
+  ## The Blood Tax
+  ver.40.name:0 "The Blood Tax"
+  ver.40.desc:0 "[ver_blood_tributary.GetName]'s tribute is due, and it can only be paid in blood. Our soldiers have already been sent to take away from each family the most promising and strong-looking youths. They'll soon be educated into the fundamentals of our culture - the mostly important one being, of course, how to better serve their masters."
+  ver.40.distribute:0 "Distribute them among our colonies."
+  ver.40.distribute.tooltip:0 "[This.ver_blood_tributary_population] £pops£ §HPops§! will be sent to our worlds, with priority to colonies with free housing"
+  ver.40.thrall:0 "Send them all to our Thrall Worlds."
+  ver.40.thrall.tooltip:0 "[This.ver_blood_tributary_population] £pops£ §HPops§! will be distributed among our Thrall Worlds"
   ##### Government #####
   ## Governmment type
   ver_gov_single_party_republic:0 "Single-Party Republic"
@@ -234,6 +245,7 @@
   ## Opinion modifiers
   ver_triggered_opinion_serfdom:0 "Serfdom"
   ver_triggered_opinion_puppeteer:0 "Puppeteer"
+  ver_triggered_opinion_blood:0 "Blood Tribute"
   ver_triggered_opinion_light_overlord_taxes:0 "Light Overlord Taxes"
   ver_triggered_opinion_moderate_overlord_taxes:0 "Moderate Overlord Taxes"
   ver_triggered_opinion_heavy_overlord_taxes:0 "Heavy Overlord Taxes"
