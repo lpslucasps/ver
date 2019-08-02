@@ -1692,5 +1692,18 @@ verblood = {
 			country_event = { id = ver.11 }
 			break = yes
 		}
+		if = {
+			limit = {
+				from = {
+					any_subject = { is_subject_type = verblood }
+				}
+			}
+			set_subject_of = {
+				who = from
+				subject_type = vassal
+			}
+			country_event = { id = ver.11 }
+			break = yes
+		}
 	}
 }

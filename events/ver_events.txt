@@ -498,7 +498,6 @@ country_event = {
 		}
 	}
 
-
 }
 
 ### Subjects taxation
