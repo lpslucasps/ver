@@ -1707,3 +1707,5 @@ verblood = {
 		}
 	}
 }
+
+# Todo: subjects for corporations.

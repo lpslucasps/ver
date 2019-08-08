@@ -1,4 +1,4 @@
-
+# Special government for authoritarian 'republics'
 ver_gov_single_party_republic = {
 	ruler_title = RT_PRESIDENT
 	ruler_title_female = RT_PRESIDENT_FEMALE

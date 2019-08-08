@@ -1,4 +1,4 @@
-#For now it's just a copy of the Democratic Generic name formats
+# For now, at least, it's just a copy of the Democratic Generic name formats
 
 # Democratic Generic 1
 empire_name_format = {
@@ -63,7 +63,7 @@ empire_name_format = {
 		factor = 0
 		modifier = {
 			add = 2
-  			has_government = "ver_gov_single_party_republic"
+				has_government = "ver_gov_single_party_republic"
 			is_pirate = no
 			is_primitive = no
 			NOT = { is_country_type = fallen_empire }

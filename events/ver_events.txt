@@ -54,12 +54,7 @@ country_event = {
 	option = { # Transform into Puppet State (Authoritarian)
 		name = ver.100.puppet
 		custom_tooltip = ver.100.puppet.tooltip
-		trigger = {
-			OR = {
-				has_ethic = ethic_authoritarian
-				has_ethic = ethic_fanatic_authoritarian
-			}
-		}
+		trigger = { is_authoritarian = yes }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -94,10 +89,7 @@ country_event = {
 		name = ver.100.sister
 		custom_tooltip = ver.100.sister.tooltip
 		trigger = {
-			OR = {
-				has_ethic = ethic_egalitarian
-				has_ethic = ethic_fanatic_egalitarian
-			}
+			is_egalitarian = yes
 			from = {
 				NOT = {
 					has_ethic = ethic_gestalt_consciousness
@@ -169,12 +161,7 @@ country_event = {
 	option = { # Transform into Jr. Partner (Materialist)
 		name = ver.100.jrpartner
 		custom_tooltip = ver.100.jrpartner.tooltip
-		trigger = {
-			OR = {
-				has_ethic = ethic_materialist
-				has_ethic = ethic_fanatic_materialist
-			}
-		}
+		trigger = { is_materialist = yes }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -204,14 +191,10 @@ country_event = {
 		name = ver.100.foederatus
 		custom_tooltip = ver.100.foederatus.tooltip
 		trigger = {
-			OR = {
-				has_ethic = ethic_militarist
-				has_ethic = ethic_fanatic_militarist
-			}
+			is_militarist = yes
 			from = {
 				NOT = {
-					has_ethic = ethic_pacifist
-					has_ethic = ethic_fanatic_pacifist
+					is_pacifist = yes
 				}
 			}
 		}
@@ -246,8 +229,7 @@ country_event = {
 		custom_tooltip = ver.100.autonomous.tooltip
 		trigger = {
 			OR = {
-				has_ethic = ethic_pacifist
-				has_ethic = ethic_fanatic_pacifist
+				is_pacifist = yes
 				has_civic = civic_machine_servitor
 			}
 		}
@@ -283,12 +265,7 @@ country_event = {
 	option = { # Transform into Disciple (Spiritualist)
 		name = ver.100.disciple
 		custom_tooltip = ver.100.disciple.tooltip
-		trigger = {
-			OR = {
-				has_ethic = ethic_spiritualist
-				has_ethic = ethic_fanatic_spiritualist
-			}
-		}
+		trigger = { is_spiritualist = yes }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -322,12 +299,7 @@ country_event = {
 	option = { # Transform into Beneficiary (Xenophile)
 		name = ver.100.beneficiary
 		custom_tooltip = ver.100.beneficiary.tooltip
-		trigger = {
-			OR = {
-				has_ethic = ethic_xenophile
-				has_ethic = ethic_fanatic_xenophile
-			}
-		}
+		trigger = { is_xenophile = yes }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -356,12 +328,7 @@ country_event = {
 	option = { # Transform into Serf (Xenophobe)
 		name = ver.100.serf
 		custom_tooltip = ver.100.serf.tooltip
-		trigger = {
-			OR = {
-				has_ethic = ethic_xenophobe
-				has_ethic = ethic_fanatic_xenophobe
-			}
-		}
+		trigger = { is_xenophobe = yes }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -390,9 +357,7 @@ country_event = {
 	option = { # Transform into Appendage (Hive Mind)
 		name = ver.100.appendage
 		custom_tooltip = ver.100.appendage.tooltip
-		trigger = {
-			has_authority = auth_hive_mind
-		}
+		trigger = { has_authority = auth_hive_mind }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -475,6 +440,7 @@ country_event = {
 				has_civic = civic_slaver_guilds
 			}
 			NOT = { any_subject = { is_subject_type = verblood } }
+			From = { NOT = { has_authority = auth_machine_intelligence } }
 		}
 		ai_chance = {
 			factor = 100
@@ -1213,7 +1179,7 @@ country_event = {
 	# Distribute them among our worlds
 	option = {
 		name = ver.40.distribute
-		custom_tooltip =  ver.40.distribute.tooltip
+		custom_tooltip =	ver.40.distribute.tooltip
 
 		hidden_effect = {
 			while = {
@@ -1255,7 +1221,7 @@ country_event = {
 	# Distribute them among our Thrall worlds
 	option = {
 		name = ver.40.thrall
-		custom_tooltip =  ver.40.thrall.tooltip
+		custom_tooltip =	ver.40.thrall.tooltip
 		trigger = { any_planet = { has_modifier = slave_colony } }
 
 		hidden_effect = {

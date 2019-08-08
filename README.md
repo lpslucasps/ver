@@ -1,6 +1,6 @@
 # For Stellaris 2.3.3
 
-This mod expands how vassals work. It adds 11 new types of subject empires (1 for each ethics + 1 for hive minds +2 for machine intelligences), each with its own perks. It also adds a new Policy, available once you finish the Domination tradition tree, that let you tax your subjects' trade, and a Proxy War mechanic.
+This mod expands how vassals work. It adds 12 new types of subject empires (1 for each ethics + 1 for hive minds +3 special types of subjects), each with its own perks. It also adds a new Policy, available once you finish the Domination tradition tree, that let you tax your subjects' trade, and a Proxy War mechanic.
 
 ## FEATURES
 

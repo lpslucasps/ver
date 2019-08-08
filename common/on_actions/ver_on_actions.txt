@@ -2,7 +2,7 @@
 # No scope, like on_game_start
 on_monthly_pulse = {
 	events = {
-		vermain.10 # Transform Vassals into custom subject types
+		vermain.10 # Call ver.11, which transform Vassals into custom subject types
 		vermain.11 # Removes no longer applicable modifiers
 		vermain.12 # Reapply Demilitarized modifier.
 		vermain.13 # Look for machine empires with Parallel Processors and apply bonuses.
@@ -17,7 +17,7 @@ on_monthly_pulse = {
 # From = Main Winner
 on_war_ended = {
 	events = {
-		ver.10 # Transform Vassals into custom subject types
+		ver.10 # Let player choose which type of subject the new vassal should become
 	}
 }
 
