@@ -457,7 +457,7 @@ country_event = {
 					subject_type = verparallel
 				}
 			}
-			country_event = { id = vermain.14 }
+			country_event = { id = vermain.13 }
 		}
 	}
 

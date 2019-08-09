@@ -1,14 +1,20 @@
 
-# No scope, like on_game_start
+# no scope
 on_monthly_pulse = {
 	events = {
-		vermain.10 # Call ver.11, which transform Vassals into custom subject types
 		vermain.11 # Removes no longer applicable modifiers
 		vermain.12 # Reapply Demilitarized modifier.
-		vermain.13 # Look for machine empires with Parallel Processors and apply bonuses.
-		vermain.2 # Select all countries which are taxing its subjects
 		vermain.24 # Removes bonus trade value when not applicable anymore
 		vermain.25 # Apply taxes to any newly-acquired subject.
+	}
+}
+
+# this = country
+on_monthly_pulse_country = {
+	events = {
+		vermain.10 # Call ver.11, which transform Vassals into custom subject types
+		vermain.13 # Look for machine empires with Parallel Processors and apply bonuses.
+		vermain.2 # Select all countries which are taxing its subjects
 	}
 }
 

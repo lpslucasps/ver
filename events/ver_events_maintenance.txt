@@ -3,24 +3,21 @@
 namespace = vermain
 
 # vermain.10: Transform Vassals into custom subject types. Called monthly.
-event = {
+country_event = {
 	id = vermain.10
 	hide_window = yes
 	is_triggered_only = yes
 
+	trigger = {
+		is_country_type = default
+		NOT = { has_authority = auth_corporate }
+		is_overlord = yes
+	}
+
 	immediate = {
-		every_country = {
-			limit = {
-				is_country_type = default
-				NOT = {
-					has_authority = auth_corporate
-				}
-				is_overlord = yes
-			}
-			every_subject = {
-				limit = { is_subject_type = vassal }
-				country_event = { id = ver.11 }
-			}
+		every_subject = {
+			limit = { is_subject_type = vassal }
+			country_event = { id = ver.11 }
 		}
 	}
 }
@@ -130,27 +127,15 @@ event = {
 	}
 }
 
-# vermain.13: Look for machine empires with Parallel Processors and apply bonuses. Called monthly.
-event = {
+# vermain.13: Apply Parallel Processors effects
+country_event = {
 	id = vermain.13
 	hide_window = yes
 	is_triggered_only = yes
 
-	immediate = {
-		every_country = {
-			limit = {
-				has_authority = auth_machine_intelligence
-			}
-			country_event = { id = vermain.14 }
-		}
+	trigger = {
+		has_authority = auth_machine_intelligence
 	}
-}
-
-# vermain.14: Apply Parallel Processors effects
-country_event = {
-	id = vermain.14
-	hide_window = yes
-	is_triggered_only = yes
 
 	immediate = {
 		set_variable = { which = ver_total_parallel_processors value = 0 }
@@ -202,24 +187,24 @@ country_event = {
 }
 
 # vermain.2: Select all countries which are taxing subjects. Called monthly.
-event = {
+country_event = {
 	id = vermain.2
 	hide_window = yes
 	is_triggered_only = yes
 
-	immediate = {
-		every_country = {
-			limit = {
-				is_country_type = default
-				OR = {
-					has_policy_flag = ver_light_taxes
-					has_policy_flag = ver_moderate_taxes
-					has_policy_flag = ver_heavy_taxes
-					has_policy_flag = ver_burdensome_taxes
-				}
-			}
-			country_event = { id = vermain.20 }
+	trigger = {
+		is_country_type = default
+		is_overlord = yes
+		OR = {
+			has_policy_flag = ver_light_taxes
+			has_policy_flag = ver_moderate_taxes
+			has_policy_flag = ver_heavy_taxes
+			has_policy_flag = ver_burdensome_taxes
 		}
+	}
+
+	immediate = {
+		country_event = { id = vermain.20 days = 1}
 	}
 }
 
@@ -245,7 +230,7 @@ country_event = {
 
 		if = {
 			limit = { has_policy_flag = ver_light_taxes }
-			divide_variable = { which = ver_subjects_trade value = 20}
+			divide_variable = { which = ver_subjects_trade value = 20 }
 		}
 		else_if = {
 			limit = { has_policy_flag = ver_moderate_taxes }
@@ -260,7 +245,7 @@ country_event = {
 		}
 
 		# Apply trade value bonus to the overlord capital
-		country_event = { id = vermain.22 days = 1}
+		country_event = { id = vermain.22 }
 	}
 }
 
@@ -776,7 +761,9 @@ country_event = {
 		else = {
 			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_49 days = -1 } }
 		}
+	}
 
+	after = {
 		# Reset variable to 0 after using it, so it doesn't take memmory space
 		set_variable = { which = ver_subjects_trade value = 0 }
 	}
