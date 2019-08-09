@@ -25,17 +25,19 @@ ver_proxy_war = {
 	}
 
 	ai_weight = {
-		weight = 0
+		weight = 1
 		modifier = {
 			any_subject = {
 				is_subject_type = verpuppet
 				is_at_war = no
 				any_neighbor_country = {
-					opinion = Root
-					value = -50
+					opinion = {
+						who = Root
+						value = -50
+					}
 				}
 			}
-			add = 100
+			factor = 100
 		}
 	}
 }
