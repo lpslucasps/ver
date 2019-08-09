@@ -3,9 +3,7 @@
 on_monthly_pulse = {
 	events = {
 		vermain.11 # Removes no longer applicable modifiers
-		vermain.12 # Reapply Demilitarized modifier.
-		vermain.24 # Removes bonus trade value when not applicable anymore
-		vermain.25 # Apply taxes to any newly-acquired subject.
+		vermain.12 # Reapply modifiers
 	}
 }
 
@@ -15,6 +13,8 @@ on_monthly_pulse_country = {
 		vermain.10 # Call ver.11, which transform Vassals into custom subject types
 		vermain.13 # Look for machine empires with Parallel Processors and apply bonuses.
 		vermain.2 # Select all countries which are taxing its subjects
+		vermain.23 # Removes bonus trade value when not applicable anymore
+		vermain.24 # Apply taxes to any newly-acquired subject.
 	}
 }
 
@@ -28,7 +28,7 @@ on_war_ended = {
 }
 
 # No scope, like on_game_start
-on_five_year_pulse = {
+on_five_year_pulse_country = {
 	events = {
 		vermain.40 # The Blood Tax
 	}

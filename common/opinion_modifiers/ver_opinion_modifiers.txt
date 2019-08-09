@@ -30,6 +30,7 @@ ver_triggered_opinion_blood = {
 ver_triggered_opinion_light_overlord_taxes = {
 	trigger = {
 		is_subject = yes
+		NOT = { has_ethic = ethic_gestalt_consciousness }
 		FROM = {
 			any_subject = { is_same_value = ROOT }
 			has_policy_flag = ver_light_taxes
@@ -43,6 +44,7 @@ ver_triggered_opinion_light_overlord_taxes = {
 ver_triggered_opinion_moderate_overlord_taxes = {
 	trigger = {
 		is_subject = yes
+		NOT = { has_ethic = ethic_gestalt_consciousness }
 		FROM = {
 			any_subject = { is_same_value = ROOT }
 			has_policy_flag = ver_moderate_taxes
@@ -56,6 +58,7 @@ ver_triggered_opinion_moderate_overlord_taxes = {
 ver_triggered_opinion_heavy_overlord_taxes = {
 	trigger = {
 		is_subject = yes
+		NOT = { has_ethic = ethic_gestalt_consciousness }
 		FROM = {
 			any_subject = { is_same_value = ROOT }
 			has_policy_flag = ver_heavy_taxes
@@ -69,6 +72,7 @@ ver_triggered_opinion_heavy_overlord_taxes = {
 ver_triggered_opinion_burdensome_overlord_taxes = {
 	trigger = {
 		is_subject = yes
+		NOT = { has_ethic = ethic_gestalt_consciousness }
 		FROM = {
 			any_subject = { is_same_value = ROOT }
 			has_policy_flag = ver_burdensome_taxes

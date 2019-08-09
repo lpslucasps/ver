@@ -94,6 +94,18 @@ event = {
 			remove_modifier = ver_heavy_overlord_taxes
 			remove_modifier = ver_burdensome_overlord_taxes
 		}
+
+		# Remove Parallel Processors from machine authorities without subjects
+		every_country = {
+			limit = {
+				is_country_type = default
+				has_authority = auth_machine_intelligence
+				OR = {
+					is_overlord = no
+					NOT = { any_subject = { is_subject_type = verparallel } }
+				}
+			}
+		}
 	}
 }
 
@@ -134,14 +146,20 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		is_country_type = default
 		has_authority = auth_machine_intelligence
+		is_overlord = yes
+		any_subject = {	is_subject_type = verparallel }
 	}
 
 	immediate = {
 		set_variable = { which = ver_total_parallel_processors value = 0 }
 
 		every_subject = {
-			limit = { is_subject_type = verparallel }
+			limit = {
+				is_subject_type = verparallel
+				NOT = { is_at_war_with = overlord }
+			}
 			prev = { change_variable = { which = ver_total_parallel_processors value = 1} }
 		}
 
@@ -565,8 +583,12 @@ country_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		country_event = { id = vermain.23 } # First remove any modifier, so we don't take the risk of anyone having two overlapping Subjects' Taxes modifiers
+		ver_remove_taxes_bonuses = yes
+
 		if = {
+			limit = { check_variable = { which = ver_subjects_trade value <= 0 } }
+		}
+		else_if = {
 			limit = { check_variable = { which = ver_subjects_trade value <= 5 } }
 			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_1 days = -1 } }
 		}
@@ -769,154 +791,96 @@ country_event = {
 	}
 }
 
-# vermain.23: Helper Event. Remove all ver_subjects_taxes modifiers
-country_event = {
+# If the country has no more subjects, remove trade bonus. Called monthly.
+event = {
 	id = vermain.23
 	hide_window = yes
 	is_triggered_only = yes
 
-	immediate = {
-		capital_scope = {
-			remove_modifier = ver_subjects_taxes_1
-			remove_modifier = ver_subjects_taxes_2
-			remove_modifier = ver_subjects_taxes_3
-			remove_modifier = ver_subjects_taxes_4
-			remove_modifier = ver_subjects_taxes_5
-			remove_modifier = ver_subjects_taxes_6
-			remove_modifier = ver_subjects_taxes_7
-			remove_modifier = ver_subjects_taxes_8
-			remove_modifier = ver_subjects_taxes_9
-			remove_modifier = ver_subjects_taxes_10
-			remove_modifier = ver_subjects_taxes_11
-			remove_modifier = ver_subjects_taxes_12
-			remove_modifier = ver_subjects_taxes_13
-			remove_modifier = ver_subjects_taxes_14
-			remove_modifier = ver_subjects_taxes_15
-			remove_modifier = ver_subjects_taxes_16
-			remove_modifier = ver_subjects_taxes_17
-			remove_modifier = ver_subjects_taxes_18
-			remove_modifier = ver_subjects_taxes_19
-			remove_modifier = ver_subjects_taxes_20
-			remove_modifier = ver_subjects_taxes_21
-			remove_modifier = ver_subjects_taxes_22
-			remove_modifier = ver_subjects_taxes_23
-			remove_modifier = ver_subjects_taxes_24
-			remove_modifier = ver_subjects_taxes_25
-			remove_modifier = ver_subjects_taxes_26
-			remove_modifier = ver_subjects_taxes_27
-			remove_modifier = ver_subjects_taxes_28
-			remove_modifier = ver_subjects_taxes_29
-			remove_modifier = ver_subjects_taxes_30
-			remove_modifier = ver_subjects_taxes_31
-			remove_modifier = ver_subjects_taxes_32
-			remove_modifier = ver_subjects_taxes_33
-			remove_modifier = ver_subjects_taxes_34
-			remove_modifier = ver_subjects_taxes_35
-			remove_modifier = ver_subjects_taxes_36
-			remove_modifier = ver_subjects_taxes_37
-			remove_modifier = ver_subjects_taxes_38
-			remove_modifier = ver_subjects_taxes_39
-			remove_modifier = ver_subjects_taxes_40
-			remove_modifier = ver_subjects_taxes_41
-			remove_modifier = ver_subjects_taxes_42
-			remove_modifier = ver_subjects_taxes_43
-			remove_modifier = ver_subjects_taxes_44
-			remove_modifier = ver_subjects_taxes_45
-			remove_modifier = ver_subjects_taxes_46
-			remove_modifier = ver_subjects_taxes_47
-			remove_modifier = ver_subjects_taxes_48
-			remove_modifier = ver_subjects_taxes_49
+	trigger = {
+		is_country_type = default
+		OR = {
+			is_overlord = no
+			NOT = {	any_subject = {	NOT = { is_at_war_with = overlord } } }
 		}
 	}
-}
-
-# If the country has no more subjects, remove trade bonus. Called monthly.
-event = {
-	id = vermain.24
-	hide_window = yes
-	is_triggered_only = yes
 
 	immediate = {
-		every_country = {
-			limit = {
-				is_country_type = default
-				is_overlord = no
-			}
-			country_event = { id = vermain.23 }
-		}
+		ver_remove_taxes_bonuses = yes
 	}
 }
 
 # Apply taxes to any newly-acquired subject. Monthly pulse.
-event = {
-	id = vermain.25
+country_event = {
+	id = vermain.24
 	hide_window = yes
 	is_triggered_only = yes
 
-	immediate = {
-		every_country = {
-			limit = {
-				is_country_type = default
-				is_subject = yes
-				NOT = { has_ethic = ethic_gestalt_consciousness }
-				overlord = {
-					OR = {
-						has_policy_flag = ver_light_taxes
-						has_policy_flag = ver_moderate_taxes
-						has_policy_flag = ver_heavy_taxes
-						has_policy_flag = ver_burdensome_taxes
-					}
-				}
+	trigger = {
+		is_country_type = default
+		is_subject = yes
+		NOT = { has_ethic = ethic_gestalt_consciousness }
+		overlord = {
+			OR = {
+				has_policy_flag = ver_light_taxes
+				has_policy_flag = ver_moderate_taxes
+				has_policy_flag = ver_heavy_taxes
+				has_policy_flag = ver_burdensome_taxes
 			}
+		}
+	}
 
-			if = {
-				limit = { overlord = { has_policy_flag = ver_light_taxes } }
-				remove_modifier = ver_moderate_overlord_taxes
-				remove_modifier = ver_heavy_overlord_taxes
-				remove_modifier = ver_burdensome_overlord_taxes
-				add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
-			}
-			else_if = {
-				limit = { overlord = { has_policy_flag = ver_moderate_taxes } }
-				remove_modifier = ver_light_overlord_taxes
-				remove_modifier = ver_heavy_overlord_taxes
-				remove_modifier = ver_burdensome_overlord_taxes
-				add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
-			}
-			else_if = {
-				limit = { overlord = { has_policy_flag = ver_heavy_taxes } }
-				remove_modifier = ver_light_overlord_taxes
-				remove_modifier = ver_moderate_overlord_taxes
-				remove_modifier = ver_burdensome_overlord_taxes
-				add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
-			}
-			else = {
-				remove_modifier = ver_light_overlord_taxes
-				remove_modifier = ver_moderate_overlord_taxes
-				remove_modifier = ver_heavy_overlord_taxes
-				add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
-			}
+	immediate = {
+		if = {
+			limit = { overlord = { has_policy_flag = ver_light_taxes } }
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+			add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
+		}
+		else_if = {
+			limit = { overlord = { has_policy_flag = ver_moderate_taxes } }
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+			add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
+		}
+		else_if = {
+			limit = { overlord = { has_policy_flag = ver_heavy_taxes } }
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_burdensome_overlord_taxes
+			add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
+		}
+		else = {
+			remove_modifier = ver_light_overlord_taxes
+			remove_modifier = ver_moderate_overlord_taxes
+			remove_modifier = ver_heavy_overlord_taxes
+			add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
 		}
 	}
 }
 
 # vermain.40: The Blood Tax pulse (on_five_year_pulse)
-event = {
+country_event = {
 	id = vermain.40
 	hide_window = yes
 	is_triggered_only = yes
 
-	immediate = {
-		every_country = {
-			limit = {
-				any_subject = { is_subject_type = verblood }
-				NOT = { has_country_flag = ver_recent_blood_tribute }
-			}
-			random_subject = {
-				limit = { is_subject_type = verblood }
-				save_event_target_as = ver_blood_tributary
-			}
-			country_event = { id = ver.40 days = 300 random = 600 }
+	trigger = {
+		is_country_type = default
+		is_overlord = yes
+		any_subject = {
+			is_subject_type = verblood
+			NOT = { is_at_war_with = overlord }
 		}
+	}
+
+	immediate = {
+		random_subject = {
+			limit = { is_subject_type = verblood }
+			save_event_target_as = ver_blood_tributary
+		}
+		country_event = { id = ver.40 days = 300 random = 600 }
 	}
 }

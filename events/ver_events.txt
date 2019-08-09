@@ -1191,7 +1191,13 @@ country_event = {
 
 	is_triggered_only = yes
 
-	trigger = { any_subject = { is_subject_type = verblood } }
+	trigger = {
+		is_overlord = yes
+		any_subject = {
+			is_subject_type = verblood
+			NOT = { is_at_war_with = overlord }
+		}
+	}
 
 	immediate = {
 		set_variable = { which = ver_blood_tributary_population value = 0 }
