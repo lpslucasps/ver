@@ -10,13 +10,23 @@ country_event = {
 
 	trigger = {
 		is_country_type = default
-		NOT = { has_authority = auth_corporate }
 		is_overlord = yes
+		any_subject = {
+			OR = {
+				is_subject_type = vassal
+				is_subject_type = subsidiary
+			}
+		}
 	}
 
 	immediate = {
 		every_subject = {
-			limit = { is_subject_type = vassal }
+			limit = {
+				OR = {
+					is_subject_type = vassal
+					is_subject_type = subsidiary
+				}
+			}
 			country_event = { id = ver.11 }
 		}
 	}
@@ -30,11 +40,15 @@ event = {
 
 	immediate = {
 
-		# Removes Overlord Indoctrination from former Disciples
+		# Removes Overlord Indoctrination from former Disciples and Worhsippers
 		every_country = {
 			limit = {
 				has_modifier = ver_overlord_indoctrination
-				NOT = { is_subject_type = verdisciple }
+				OR = {
+					NOT = { is_subject_type = verdisciple }
+					NOT = { is_subject_type = verworshipper }
+					is_at_war_with = overlord
+				}
 			}
 			remove_modifier = ver_overlord_indoctrination
 		}
@@ -55,7 +69,10 @@ event = {
 		every_country = {
 			limit = {
 				has_modifier = ver_military_subsidies
-				NOT = { is_subject_type = verfoederatus }
+				OR = {
+					NOT = { is_subject_type = verfoederatus }
+					is_at_war_with = overlord
+				}
 			}
 			remove_modifier = ver_military_subsidies
 		}
@@ -70,6 +87,18 @@ event = {
 				}
 			}
 			remove_modifier = ver_puppet_state
+		}
+
+		# Removes Kobun from former Kobuns
+		every_country = {
+			limit = {
+				has_modifier = ver_kobun_malus
+				OR = {
+					NOT = { is_subject_type = kobun }
+					is_at_war_with = overlord
+				}
+			}
+			remove_modifier = ver_kobun_malus
 		}
 
 		# Remove taxes from subject empires that are no longer taxed or former subject empires
@@ -89,10 +118,7 @@ event = {
 					is_subject = no
 				}
 			}
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
+			ver_remove_overlord_taxes = yes
 		}
 
 		# Remove Parallel Processors from machine authorities without subjects
@@ -105,6 +131,7 @@ event = {
 					NOT = { any_subject = { is_subject_type = verparallel } }
 				}
 			}
+			ver_remove_parallel_processor_bonuses = yes
 		}
 	}
 }
@@ -136,10 +163,33 @@ event = {
 			}
 			add_modifier = { modifier = ver_puppet_state days = -1 }
 		}
+		every_country = {
+			limit = {
+				is_subject_type = verkobun
+				NOR = {
+					has_modifier = ver_kobun_malus
+					is_at_war_with = overlord
+				}
+			}
+			add_modifier = { modifier = ver_kobun_malus days = -1 }
+		}
+		every_country = {
+			limit = {
+				OR = {
+					is_subject_type = verdisciple
+					is_subject_type = verworshipper
+				}
+				NOR = {
+					has_modifier = ver_overlord_indoctrination
+					is_at_war_with = overlord
+				}
+			}
+			add_modifier = { modifier = ver_overlord_indoctrination days = -1 }
+		}
 	}
 }
 
-# vermain.13: Apply Parallel Processors effects
+# vermain.13: Apply Parallel Processors effects (on_monthly_pulse_country)
 country_event = {
 	id = vermain.13
 	hide_window = yes
@@ -160,44 +210,44 @@ country_event = {
 				is_subject_type = verparallel
 				NOT = { is_at_war_with = overlord }
 			}
-			prev = { change_variable = { which = ver_total_parallel_processors value = 1} }
+			prev = { change_variable = { which = ver_total_parallel_processors value = 1 } }
 		}
 
-		# Maybe Switch is better?
-
+		# Apply bonuses
 		if = {
-			limit = { check_variable = { which = ver_total_parallel_processors value = 1} }
-			remove_modifier = ver_parallel_processors_2
-			remove_modifier = ver_parallel_processors_3
-			remove_modifier = ver_parallel_processors_4
+			limit = {
+				check_variable = { which = ver_total_parallel_processors value = 1 }
+				NOT = { has_modifier = ver_parallel_processors_1 }
+			}
+			ver_remove_parallel_processor_bonuses = yes
 			add_modifier = { modifier = ver_parallel_processors_1 days = -1 }
 		}
 		else_if = {
-			limit = { check_variable = { which = ver_total_parallel_processors value = 2 } }
-			remove_modifier = ver_parallel_processors_1
-			remove_modifier = ver_parallel_processors_3
-			remove_modifier = ver_parallel_processors_4
+			limit = {
+				check_variable = { which = ver_total_parallel_processors value = 2 }
+				NOT = { has_modifier = ver_parallel_processors_2 }
+			}
+			ver_remove_parallel_processor_bonuses = yes
 			add_modifier = { modifier = ver_parallel_processors_2 days = -1 }
 		}
 		else_if = {
-			limit = { check_variable = { which = ver_total_parallel_processors value = 3 } }
-			remove_modifier = ver_parallel_processors_1
-			remove_modifier = ver_parallel_processors_2
-			remove_modifier = ver_parallel_processors_4
+			limit = {
+				check_variable = { which = ver_total_parallel_processors value = 3 }
+				NOT = { has_modifier = ver_parallel_processors_3 }
+			}
+			ver_remove_parallel_processor_bonuses = yes
 			add_modifier = { modifier = ver_parallel_processors_3 days = -1 }
 		}
 		else_if = {
-			limit = { check_variable = { which = ver_total_parallel_processors value >= 4 } }
-			remove_modifier = ver_parallel_processors_1
-			remove_modifier = ver_parallel_processors_2
-			remove_modifier = ver_parallel_processors_3
+			limit = {
+				check_variable = { which = ver_total_parallel_processors value >= 4 }
+				NOT = { has_modifier = ver_parallel_processors_4 }
+			}
+			ver_remove_parallel_processor_bonuses = yes
 			add_modifier = { modifier = ver_parallel_processors_4 days = -1 }
 		}
 		else = {
-			remove_modifier = ver_parallel_processors_1
-			remove_modifier = ver_parallel_processors_2
-			remove_modifier = ver_parallel_processors_3
-			remove_modifier = ver_parallel_processors_4
+			ver_remove_parallel_processor_bonuses = yes
 		}
 
 		set_variable = { which = ver_total_parallel_processors value = 0 }
@@ -831,31 +881,20 @@ country_event = {
 	}
 
 	immediate = {
+		ver_remove_overlord_taxes = yes
 		if = {
 			limit = { overlord = { has_policy_flag = ver_light_taxes } }
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
 			add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
 		}
 		else_if = {
 			limit = { overlord = { has_policy_flag = ver_moderate_taxes } }
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
 			add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
 		}
 		else_if = {
 			limit = { overlord = { has_policy_flag = ver_heavy_taxes } }
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
 			add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
 		}
 		else = {
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
 			add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
 		}
 	}
@@ -871,14 +910,22 @@ country_event = {
 		is_country_type = default
 		is_overlord = yes
 		any_subject = {
-			is_subject_type = verblood
+			OR = {
+				is_subject_type = verblood
+				is_subject_type = verkobun
+			}
 			NOT = { is_at_war_with = overlord }
 		}
+		NOT = { has_country_flag = ver_recent_blood_tribute }
 	}
 
 	immediate = {
 		random_subject = {
-			limit = { is_subject_type = verblood }
+			limit = {
+				OR = {
+					is_subject_type = verblood
+					is_subject_type = verkobun
+				}
 			save_event_target_as = ver_blood_tributary
 		}
 		country_event = { id = ver.40 days = 300 random = 600 }

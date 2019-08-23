@@ -17,7 +17,12 @@ ver_proxy_war = {
 
 	potential = {
 		is_overlord = yes
-		any_subject = { is_subject_type = verpuppet }
+		any_subject = {
+			OR = {
+				is_subject_type = verpuppet
+				is_subject_type = verkobun
+			}
+		}
 	}
 
 	allow = {
@@ -28,7 +33,10 @@ ver_proxy_war = {
 		weight = 1
 		modifier = {
 			any_subject = {
-				is_subject_type = verpuppet
+				OR = {
+					is_subject_type = verpuppet
+					is_subject_type = verkobun
+				}
 				is_at_war = no
 				any_neighbor_country = {
 					opinion = {

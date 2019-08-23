@@ -1,53 +1,238 @@
 ver_remove_taxes_bonuses = {
 	capital_scope = {
-		remove_modifier = ver_subjects_taxes_1
-		remove_modifier = ver_subjects_taxes_2
-		remove_modifier = ver_subjects_taxes_3
-		remove_modifier = ver_subjects_taxes_4
-		remove_modifier = ver_subjects_taxes_5
-		remove_modifier = ver_subjects_taxes_6
-		remove_modifier = ver_subjects_taxes_7
-		remove_modifier = ver_subjects_taxes_8
-		remove_modifier = ver_subjects_taxes_9
-		remove_modifier = ver_subjects_taxes_10
-		remove_modifier = ver_subjects_taxes_11
-		remove_modifier = ver_subjects_taxes_12
-		remove_modifier = ver_subjects_taxes_13
-		remove_modifier = ver_subjects_taxes_14
-		remove_modifier = ver_subjects_taxes_15
-		remove_modifier = ver_subjects_taxes_16
-		remove_modifier = ver_subjects_taxes_17
-		remove_modifier = ver_subjects_taxes_18
-		remove_modifier = ver_subjects_taxes_19
-		remove_modifier = ver_subjects_taxes_20
-		remove_modifier = ver_subjects_taxes_21
-		remove_modifier = ver_subjects_taxes_22
-		remove_modifier = ver_subjects_taxes_23
-		remove_modifier = ver_subjects_taxes_24
-		remove_modifier = ver_subjects_taxes_25
-		remove_modifier = ver_subjects_taxes_26
-		remove_modifier = ver_subjects_taxes_27
-		remove_modifier = ver_subjects_taxes_28
-		remove_modifier = ver_subjects_taxes_29
-		remove_modifier = ver_subjects_taxes_30
-		remove_modifier = ver_subjects_taxes_31
-		remove_modifier = ver_subjects_taxes_32
-		remove_modifier = ver_subjects_taxes_33
-		remove_modifier = ver_subjects_taxes_34
-		remove_modifier = ver_subjects_taxes_35
-		remove_modifier = ver_subjects_taxes_36
-		remove_modifier = ver_subjects_taxes_37
-		remove_modifier = ver_subjects_taxes_38
-		remove_modifier = ver_subjects_taxes_39
-		remove_modifier = ver_subjects_taxes_40
-		remove_modifier = ver_subjects_taxes_41
-		remove_modifier = ver_subjects_taxes_42
-		remove_modifier = ver_subjects_taxes_43
-		remove_modifier = ver_subjects_taxes_44
-		remove_modifier = ver_subjects_taxes_45
-		remove_modifier = ver_subjects_taxes_46
-		remove_modifier = ver_subjects_taxes_47
-		remove_modifier = ver_subjects_taxes_48
-		remove_modifier = ver_subjects_taxes_49
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_1 }
+			remove_modifier = ver_subjects_taxes_1
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_2 }
+			remove_modifier = ver_subjects_taxes_2
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_3 }
+			remove_modifier = ver_subjects_taxes_3
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_4 }
+			remove_modifier = ver_subjects_taxes_4
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_5 }
+			remove_modifier = ver_subjects_taxes_5
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_6 }
+			remove_modifier = ver_subjects_taxes_6
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_7 }
+			remove_modifier = ver_subjects_taxes_7
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_8 }
+			remove_modifier = ver_subjects_taxes_8
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_9 }
+			remove_modifier = ver_subjects_taxes_9
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_10 }
+			remove_modifier = ver_subjects_taxes_10
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_11 }
+			remove_modifier = ver_subjects_taxes_11
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_12 }
+			remove_modifier = ver_subjects_taxes_12
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_13 }
+			remove_modifier = ver_subjects_taxes_13
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_14 }
+			remove_modifier = ver_subjects_taxes_14
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_15 }
+			remove_modifier = ver_subjects_taxes_15
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_16 }
+			remove_modifier = ver_subjects_taxes_16
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_17 }
+			remove_modifier = ver_subjects_taxes_17
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_18 }
+			remove_modifier = ver_subjects_taxes_18
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_19 }
+			remove_modifier = ver_subjects_taxes_19
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_20 }
+			remove_modifier = ver_subjects_taxes_20
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_21 }
+			remove_modifier = ver_subjects_taxes_21
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_22 }
+			remove_modifier = ver_subjects_taxes_22
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_23 }
+			remove_modifier = ver_subjects_taxes_23
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_24 }
+			remove_modifier = ver_subjects_taxes_24
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_25 }
+			remove_modifier = ver_subjects_taxes_25
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_26 }
+			remove_modifier = ver_subjects_taxes_26
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_27 }
+			remove_modifier = ver_subjects_taxes_27
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_28 }
+			remove_modifier = ver_subjects_taxes_28
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_29 }
+			remove_modifier = ver_subjects_taxes_29
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_30 }
+			remove_modifier = ver_subjects_taxes_30
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_31 }
+			remove_modifier = ver_subjects_taxes_31
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_32 }
+			remove_modifier = ver_subjects_taxes_32
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_33 }
+			remove_modifier = ver_subjects_taxes_33
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_34 }
+			remove_modifier = ver_subjects_taxes_34
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_35 }
+			remove_modifier = ver_subjects_taxes_35
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_36 }
+			remove_modifier = ver_subjects_taxes_36
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_37 }
+			remove_modifier = ver_subjects_taxes_37
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_38 }
+			remove_modifier = ver_subjects_taxes_38
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_39 }
+			remove_modifier = ver_subjects_taxes_39
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_40 }
+			remove_modifier = ver_subjects_taxes_40
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_41 }
+			remove_modifier = ver_subjects_taxes_41
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_42 }
+			remove_modifier = ver_subjects_taxes_42
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_43 }
+			remove_modifier = ver_subjects_taxes_43
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_44 }
+			remove_modifier = ver_subjects_taxes_44
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_45 }
+			remove_modifier = ver_subjects_taxes_45
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_46 }
+			remove_modifier = ver_subjects_taxes_46
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_47 }
+			remove_modifier = ver_subjects_taxes_47
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_48 }
+			remove_modifier = ver_subjects_taxes_48
+		}
+		if = {
+			limit = { has_modifier = ver_subjects_taxes_49 }
+			remove_modifier = ver_subjects_taxes_49
+		}
+	}
+}
+
+ver_remove_overlord_taxes = {
+	if = {
+		limit = { has_modifier = ver_light_overlord_taxes }
+		remove_modifier = ver_light_overlord_taxes
+	}
+	if = {
+		limit = { has_modifier = ver_moderate_overlord_taxes }
+		remove_modifier = ver_moderate_overlord_taxes
+	}
+	if = {
+		limit = { has_modifier = ver_heavy_overlord_taxes }
+		remove_modifier = ver_heavy_overlord_taxes
+	}
+	if = {
+		limit = { has_modifier = ver_burdensome_overlord_taxes }
+		remove_modifier = ver_burdensome_overlord_taxes
+	}
+}
+
+ver_remove_parallel_processor_bonuses = {
+	if = {
+		limit = { has_modifier = ver_parallel_processors_1 }
+		remove_modifier = ver_parallel_processors_1
+	}
+	if = {
+		limit = { has_modifier = ver_parallel_processors_2 }
+		remove_modifier = ver_parallel_processors_2
+	}
+	if = {
+		limit = { has_modifier = ver_parallel_processors_3 }
+		remove_modifier = ver_parallel_processors_3
+	}
+	if = {
+		limit = { has_modifier = ver_parallel_processors_4 }
+		remove_modifier = ver_parallel_processors_4
 	}
 }

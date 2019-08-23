@@ -13,11 +13,14 @@ country_event = {
 		if = {
 			limit = { is_overlord = yes }
 			every_subject = {
-				limit = { is_subject_type = vassal }
-				country_event = { id = ver.11 days = 1}
+				limit = {
+					OR = {
+						is_subject_type = vassal
+						is_subject_type = subsidiary
+					}
+				}
+				country_event = { id = ver.11 days = 1 }
 			}
-		}
-		else = {
 		}
 	}
 }
@@ -519,6 +522,7 @@ country_event = {
 	}
 }
 
+# ver.101: Decide which kind of subject empire the new subsidiary will become. Triggered by ver.11
 country_event = {
 	id = ver.101
 	title = ver.100.name
@@ -580,7 +584,7 @@ country_event = {
 					subject_type = verkobun
 				}
 			}
-			add_modifier = { modifier = ver_kobun days = -1 }
+			add_modifier = { modifier = ver_kobun_malus days = -1 }
 		}
 	}
 
@@ -602,9 +606,11 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			set_subject_of = {
-				who = Root
-				subject_type = versupplier
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = versupplier
+				}
 			}
 		}
 	}
@@ -613,9 +619,7 @@ country_event = {
 	verworshipper = {
 		name = ver.101.worshipper
 		custom_tooltip = ver.101.worshipper.tooltip
-		trigger = {
-			has_valid_civic = civic_gospel_of_the_masses
-		}
+		trigger = { has_valid_civic = civic_gospel_of_the_masses }
 		ai_chance = {
 			factor = 100
 			modifier = {
@@ -624,9 +628,11 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			set_subject_of = {
-				who = Root
-				subject_type = verworshipper
+			From
+				set_subject_of = {
+					who = Root
+					subject_type = verworshipper
+				}
 			}
 			add_modifier = { modifier = ver_overlord_indoctrination days = -1 }
 		}
@@ -653,13 +659,129 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			from = {
+			From = {
 				set_subject_of = {
 					who = Root
 					subject_type = verdebtor
 				}
 			}
-			# I mean... Pops? Really? That easy?
+			# todo: blood tax event
+		}
+	}
+
+	# Transform into viewer (Media Conglomerate)
+	option = {
+		name = ver.101.viewer
+		custom_tooltip = ver.101.viewer.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_media_conglomerate
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_media_conglomerate }
+			}
+		}
+		hidden_effect = {
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = verviewer
+				}
+			}
+		}
+	}
+
+	# Transform into Arms Dealer (Private Military Companies or Naval Contractors)
+	option = {
+		name = ver.101.verarmsdealer
+		custom_tooltip = ver.101.verarmsdealer.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_private_military_companies
+				has_valid_civic = civic_naval_contractors
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOR = {
+					has_valid_civic = civic_private_military_companies
+					has_valid_civic = civic_naval_contractors
+				}
+			}
+		}
+		hidden_effect = {
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = verarmsdealer
+				}
+			}
+		}
+	}
+
+	# Transform into Subcontractor (Private Prospectors)
+	option = {
+		name = ver.101.versubcontractor
+		custom_tooltip = ver.101.versubcontractor.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_private_prospectors
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_private_prospectors }
+			}
+		}
+		hidden_effect = {
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = versubcontractor
+				}
+			}
+		}
+	}
+
+	# Transform into Dependency (Trading Posts or Ruthless Competition)
+	option = {
+		name = ver.101.verdependency
+		custom_tooltip = ver.101.verdependency.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_trading_posts
+				has_valid_civic = civic_ruthless_competition
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOR = {
+					has_valid_civic = civic_trading_posts
+					has_valid_civic = civic_ruthless_competition
+				}
+			}
+		}
+		hidden_effect = {
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = verdependency
+				}
+			}
 		}
 	}
 }
@@ -674,12 +796,9 @@ country_event = {
 
 	immediate = {
 		every_subject = {
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
+			ver_remove_overlord_taxes = yes
 		}
-		country_event = { id = vermain.23 } # Remove all trade bonuses from Overlord
+		ver_remove_taxes_bonuses = yes
 	}
 }
 
@@ -692,9 +811,7 @@ country_event = {
 	immediate = {
 		every_subject = {
 			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
+			ver_remove_overlord_taxes = yes
 			add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
 		}
 		country_event = { id = vermain.20 }
@@ -710,9 +827,7 @@ country_event = {
 	immediate = {
 		every_subject = {
 			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
+			ver_remove_overlord_taxes = yes
 			add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
 		}
 		country_event = { id = vermain.20 }
@@ -728,9 +843,7 @@ country_event = {
 	immediate = {
 		every_subject = {
 			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_burdensome_overlord_taxes
+			ver_remove_overlord_taxes = yes
 			add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
 		}
 		country_event = { id = vermain.20 }
@@ -746,9 +859,7 @@ country_event = {
 	immediate = {
 		every_subject = {
 			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-			remove_modifier = ver_light_overlord_taxes
-			remove_modifier = ver_moderate_overlord_taxes
-			remove_modifier = ver_heavy_overlord_taxes
+			ver_remove_overlord_taxes = yes
 			add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
 		}
 		country_event = { id = vermain.20 }
@@ -770,7 +881,10 @@ country_event = {
 		# Count how many valid Puppet States there are
 		every_subject = {
 			limit = {
-				is_subject_type = verpuppet
+				OR = {
+					is_subject_type = verpuppet
+					is_subject_type = verkobun
+				}
 				is_at_war = no
 				any_neighbor_country = {
 					is_country_type = default
@@ -778,12 +892,14 @@ country_event = {
 						is_same_value = event_target:ver_puppeteer
 						has_defensive_pact = event_target:ver_puppeteer
 						is_in_federation_with = event_target:ver_puppeteer
+						has_association_status = event_target:ver_puppeteer
 						AND = {
 							is_subject = yes
 							OR = {
 								overlord = { is_same_value = event_target:ver_puppeteer }
 								overlord = { has_defensive_pact = event_target:ver_puppeteer }
 								overlord = { is_in_federation_with = event_target:ver_puppeteer }
+								overlord = { has_association_status = event_target:ver_puppeteer }
 							}
 						}
 					}
@@ -1031,12 +1147,14 @@ country_event = {
 					is_same_value = event_target:ver_puppeteer
 					has_defensive_pact = event_target:ver_puppeteer
 					is_in_federation_with = event_target:ver_puppeteer
+					has_association_status = event_target:ver_puppeteer
 					AND = {
 						is_subject = yes
 						OR = {
 							overlord = { is_same_value = event_target:ver_puppeteer }
 							overlord = { has_defensive_pact = event_target:ver_puppeteer }
 							overlord = { is_in_federation_with = event_target:ver_puppeteer }
+							overlord = { has_association_status = event_target:ver_puppeteer }
 						}
 					}
 				}
@@ -1047,163 +1165,163 @@ country_event = {
 
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 1 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_1
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_1
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 2 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_2
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_2
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 3 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_3
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_3
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 4 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_4
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_4
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 5 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_5
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_5
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 6 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_6
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_6
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 7 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_7
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_7
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 8 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_8
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_8
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 9 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_9
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_9
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 10 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_10
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_10
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 11 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_11
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_11
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 12 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_12
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_12
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 13 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_13
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_13
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 14 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_14
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_14
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 15 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_15
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_15
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 16 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_16
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_16
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 17 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_17
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_17
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 18 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_18
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_18
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 19 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_19
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_19
+			}
 		}
 		if = {
 			limit = { check_variable = { which = ver_puppet_neighbors value >= 20 } }
-				random_neighbor_country = {
-					limit = { has_country_flag = puppet_neighbor_counted }
-					remove_country_flag = puppet_neighbor_counted
-					save_event_target_as = puppet_neighbor_20
-				}
+			random_neighbor_country = {
+				limit = { has_country_flag = puppet_neighbor_counted }
+				remove_country_flag = puppet_neighbor_counted
+				save_event_target_as = puppet_neighbor_20
+			}
 		}
 
 		event_target:ver_puppeteer = { country_event = { id = ver.33 } }

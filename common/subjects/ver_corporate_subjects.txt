@@ -684,10 +684,6 @@ verdebtor = {
 
 	diplo_threat = 1.5
 
-	subject_tax_rate = {
-		energy = 0.25
-	}
-
 	potential = {
 		is_country_type = default
 		from = { has_authority = auth_corporate }
@@ -794,10 +790,22 @@ verdebtor = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = vassal
+			country_event = { id = ver.11 }
+			break = yes
+		}
+		if = {
+			limit = {
+				from = {
+					NOR = {
+						has_valid_civic = civic_indentured_assets
+						AND = {
+							has_valid_civic = civic_franchising
+							has_policy_flag = slavery_allowed
+						}
+					}
+				}
 			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 	}
@@ -814,7 +822,14 @@ verviewer = {
 	diplo_threat = 1.5
 
 	subject_tax_rate = {
-		energy = 0.25
+		energy = 0.15
+	}
+
+	overlord_resources = {
+		category = subjects
+		produces = {
+			influence = 0.25
+		}
 	}
 
 	potential = {
@@ -923,11 +938,19 @@ verviewer = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = vassal
-			}
+			country_event = { id = ver.11 }
 			break = yes
+		}
+		if = {
+			limit = {
+				from = {
+					NOR = {
+						has_valid_civic = civic_media_conglomerate
+						has_valid_civic = civic_franchising
+					}
+				}
+			}
+			country_event = { id = ver.11 }
 		}
 	}
 }
@@ -943,7 +966,8 @@ verarmsdealer = {
 	diplo_threat = 1.5
 
 	subject_tax_rate = {
-		energy = 0.25
+		energy = 0.05
+		alloys = 0.10
 	}
 
 	potential = {
@@ -1052,10 +1076,20 @@ verarmsdealer = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = vassal
+			country_event = { id = ver.11 }
+			break = yes
+		}
+		if = {
+			limit = {
+				from = {
+					NOR = {
+						has_valid_civic = civic_private_military_companies
+						has_valid_civic = civic_naval_contractors
+						has_valid_civic = civic_franchising
+					}
+				}
 			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 	}
@@ -1072,7 +1106,10 @@ versubcontractor = {
 	diplo_threat = 1.5
 
 	subject_tax_rate = {
-		energy = 0.25
+		energy = 0.10
+		physics_research = 0.05
+		society_research = 0.05
+		engineering_research = 0.05
 	}
 
 	potential = {
@@ -1181,11 +1218,18 @@ versubcontractor = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = vassal
-			}
+			country_event = { id = ver.11 }
 			break = yes
+		}
+		if = {
+			limit = {
+				from = {
+					NOR = {
+						has_valid_civic = civic_private_prospectors
+						has_valid_civic = civic_franchising
+					}
+				}
+			}
 		}
 	}
 }
@@ -1201,7 +1245,9 @@ verdependency = {
 	diplo_threat = 1.5
 
 	subject_tax_rate = {
-		energy = 0.25
+		energy = 0.10
+		minerals = 0.10
+		food = 0.10
 	}
 
 	potential = {
@@ -1310,11 +1356,19 @@ verdependency = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = vassal
-			}
+			country_event = { id = ver.11 }
 			break = yes
+		}
+		if = {
+			limit = {
+				from = {
+					NOR = {
+						has_valid_civic = civic_trading_posts
+						has_valid_civic = civic_ruthless_competition
+						has_valid_civic = civic_franchising
+					}
+				}
+			}
 		}
 	}
 }
