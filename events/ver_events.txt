@@ -31,16 +31,21 @@ country_event = {
 	trigger = {
 		overlord = {
 			is_country_type = default
-			NOT =	{ has_authority = auth_corporate }
 		}
 	}
 
 	immediate = {
-		overlord = { country_event = { id = ver.100 } }
+		if = {
+			limit = { NOT = { has_authority = auth_corporate } }
+			overlord = { country_event = { id = ver.100 } }
+		}
+		else = {
+			overlord = { country_event = { id = ver.101 } }
+		}
 	}
 }
 
-# ver.12: Decide which kind of subject empire the new vassal will become. Triggered by ver.11
+# ver.100: Decide which kind of subject empire the new vassal will become. Triggered by ver.11
 country_event = {
 	id = ver.100
 	title = ver.100.name
@@ -51,13 +56,15 @@ country_event = {
 
 	is_triggered_only = yes
 
-	option = { # Transform into Puppet State (Authoritarian)
+	# Transform into Puppet State (Authoritarian)
+	option = {
 		name = ver.100.puppet
 		custom_tooltip = ver.100.puppet.tooltip
 		trigger = {
 			OR = {
 				has_ethic = ethic_authoritarian
 				has_ethic = ethic_fanatic_authoritarian
+				has_valid_civic = civic_feudal_realm
 			}
 		}
 		ai_chance = {
@@ -72,7 +79,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_shadow_council
+				has_valid_civic = civic_shadow_council
 			}
 			modifier = {
 				factor = 0.5
@@ -90,13 +97,15 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Sister Republic (Egalitarian)
+	# Transform into Sister Republic (Egalitarian)
+	option = {
 		name = ver.100.sister
 		custom_tooltip = ver.100.sister.tooltip
 		trigger = {
 			OR = {
 				has_ethic = ethic_egalitarian
 				has_ethic = ethic_fanatic_egalitarian
+				has_valid_civic = civic_feudal_realm
 			}
 			from = {
 				NOT = {
@@ -116,7 +125,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_beacon_of_liberty
+				has_valid_civic = civic_beacon_of_liberty
 			}
 			modifier = {
 				factor = 10
@@ -166,13 +175,15 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Jr. Partner (Materialist)
+	# Transform into Jr. Partner (Materialist)
+	option = {
 		name = ver.100.jrpartner
 		custom_tooltip = ver.100.jrpartner.tooltip
 		trigger = {
 			OR = {
 				has_ethic = ethic_materialist
 				has_ethic = ethic_fanatic_materialist
+				has_valid_civic = civic_feudal_realm
 			}
 		}
 		ai_chance = {
@@ -187,7 +198,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_technocracy
+				has_valid_civic = civic_technocracy
 			}
 		}
 		hidden_effect = {
@@ -200,13 +211,15 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Foederatus (Militarist)
+	# Transform into Foederatus (Militarist)
+	option = {
 		name = ver.100.foederatus
 		custom_tooltip = ver.100.foederatus.tooltip
 		trigger = {
 			OR = {
 				has_ethic = ethic_militarist
 				has_ethic = ethic_fanatic_militarist
+				has_valid_civic = civic_feudal_realm
 			}
 			from = {
 				NOT = {
@@ -226,7 +239,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_warrior_culture
+				has_valid_civic = civic_warrior_culture
 			}
 		}
 		hidden_effect = {
@@ -240,14 +253,16 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Autonomous Region (Pacifist)
+	# Transform into Autonomous Region (Pacifist)
+	option = {
 		name = ver.100.autonomous
 		custom_tooltip = ver.100.autonomous.tooltip
 		trigger = {
 			OR = {
 				has_ethic = ethic_pacifist
 				has_ethic = ethic_fanatic_pacifist
-				has_civic = civic_machine_servitor
+				has_valid_civic = civic_machine_servitor
+				has_valid_civic = civic_feudal_realm
 			}
 		}
 		ai_chance = {
@@ -256,7 +271,7 @@ country_event = {
 				factor = 0
 				NOR = {
 					is_pacifist = yes
-					has_civic = civic_machine_servitor
+					has_valid_civic = civic_machine_servitor
 				}
 			}
 			modifier = {
@@ -265,7 +280,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_agrarian_idyll
+				has_valid_civic = civic_agrarian_idyll
 			}
 		}
 		hidden_effect = {
@@ -279,7 +294,8 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Disciple (Spiritualist)
+	# Transform into Disciple (Spiritualist)
+	option = {
 		name = ver.100.disciple
 		custom_tooltip = ver.100.disciple.tooltip
 		trigger = {
@@ -300,7 +316,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_exalted_priesthood
+				has_valid_civic = civic_exalted_priesthood
 			}
 			modifier = {
 				factor = 10
@@ -318,13 +334,15 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Beneficiary (Xenophile)
+	# Transform into Beneficiary (Xenophile)
+	option = {
 		name = ver.100.beneficiary
 		custom_tooltip = ver.100.beneficiary.tooltip
 		trigger = {
 			OR = {
 				has_ethic = ethic_xenophile
 				has_ethic = ethic_fanatic_xenophile
+				has_valid_civic = civic_feudal_realm
 			}
 		}
 		ai_chance = {
@@ -339,7 +357,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_free_haven
+				has_valid_civic = civic_free_haven
 			}
 		}
 		hidden_effect = {
@@ -352,12 +370,14 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Serf (Xenophobe)
+	# Transform into Serf (Xenophobe)
+	option = {
 		name = ver.100.serf
 		custom_tooltip = ver.100.serf.tooltip
 		trigger = {
 			has_ethic = ethic_xenophobe
 			has_ethic = ethic_fanatic_xenophobe
+			has_valid_civic = civic_feudal_realm
 		}
 		ai_chance = {
 			factor = 100
@@ -371,7 +391,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 3
-				has_civic = civic_slaver_guilds
+				has_valid_civic = civic_slaver_guilds
 			}
 		}
 		hidden_effect = {
@@ -384,7 +404,8 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Appendage (Hive Mind)
+	# Transform into Appendage (Hive Mind)
+	option = {
 		name = ver.100.appendage
 		custom_tooltip = ver.100.appendage.tooltip
 		trigger = { has_authority = auth_hive_mind }
@@ -405,12 +426,13 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Organic Auxiliary (Machine Intelligence)
+	# Transform into Organic Auxiliary (Machine Intelligence)
+	option = {
 		name = ver.100.organic
 		custom_tooltip = ver.100.organic.tooltip
 		trigger = {
 			has_authority = auth_machine_intelligence
-			NOT = { has_civic = civic_machine_servitor }
+			NOT = { has_valid_civic = civic_machine_servitor }
 			from = { NOT = { has_authority = auth_machine_intelligence } }
 		}
 		ai_chance = {
@@ -419,7 +441,7 @@ country_event = {
 				factor = 0
 				NOT = {
 					has_authority = auth_machine_intelligence
-					NOT = { has_civic = civic_machine_servitor }
+					NOT = { has_valid_civic = civic_machine_servitor }
 				}
 			}
 		}
@@ -433,7 +455,8 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Parallel Processor (Machine Intelligence)
+	# Transform into Parallel Processor (Machine Intelligence)
+	option = {
 		name = ver.100.parallel
 		custom_tooltip = ver.100.parallel.tooltip
 		trigger = {
@@ -461,13 +484,14 @@ country_event = {
 		}
 	}
 
-	option = { # Transform into Blood Tributary (slaver or barbaric)
+	# Transform into Blood Tributary (Slaver or Barbaric)
+	option = {
 		name = ver.100.blood
 		custom_tooltip = ver.100.blood.tooltip
 		trigger = {
 			OR = {
-				has_civic = civic_barbaric_despoilers
-				has_civic = civic_slaver_guilds
+				has_valid_civic = civic_barbaric_despoilers
+				has_valid_civic = civic_slaver_guilds
 			}
 			NOT = { any_subject = { is_subject_type = verblood } }
 			From = { NOT = { has_authority = auth_machine_intelligence } }
@@ -477,8 +501,8 @@ country_event = {
 			modifier = {
 				factor = 0
 				NOR = {
-					has_civic = civic_barbaric_despoilers
-					has_civic = civic_slaver_guilds
+					has_valid_civic = civic_barbaric_despoilers
+					has_valid_civic = civic_slaver_guilds
 				}
 			}
 		}
@@ -493,7 +517,151 @@ country_event = {
 			country_event = { id = ver.40 }
 		}
 	}
+}
 
+country_event = {
+	id = ver.101
+	title = ver.100.name
+	desc = ver.100.desc
+	picture = GFX_evt_arguing_senate
+	show_sound = event_conversation
+	location = From
+
+	is_triggered_only = yes
+
+	# Transform into Devotee (Brand Loyalty)
+	option = {
+		name = ver.101.devotee
+		custom_tooltip = ver.101.devotee.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_brand_loyalty
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_brand_loyalty }
+			}
+		}
+		hidden_effect = {
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = verdevotee
+				}
+			}
+		}
+	}
+
+	# Transform into Kobun (Criminal Heritage)
+	option = {
+		name = ver.101.kobun
+		custom_tooltip = ver.101.kobun.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_criminal_heritage
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_criminal_heritage }
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = Root
+					subject_type = verkobun
+				}
+			}
+			add_modifier = { modifier = ver_kobun days = -1 }
+		}
+	}
+
+	# Transform into Supplier (Free Traders)
+	option = {
+		name.101.supplier
+		custom_tooltip = ver.101.supplier.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_free_traders
+				has_valid_civic = civic_franchising
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_free_traders }
+			}
+		}
+		hidden_effect = {
+			set_subject_of = {
+				who = Root
+				subject_type = versupplier
+			}
+		}
+	}
+
+	# Transform into Worshipper (Gospel of the Masses)
+	verworshipper = {
+		name = ver.101.worshipper
+		custom_tooltip = ver.101.worshipper.tooltip
+		trigger = {
+			has_valid_civic = civic_gospel_of_the_masses
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_gospel_of_the_masses }
+			}
+		}
+		hidden_effect = {
+			set_subject_of = {
+				who = Root
+				subject_type = verworshipper
+			}
+			add_modifier = { modifier = ver_overlord_indoctrination days = -1 }
+		}
+	}
+
+	# Transform into Debtor (Indentured Assets)
+	option = {
+		name = ver.101.debtor
+		custom_tooltip = ver.101.debtor.tooltip
+		trigger = {
+			OR = {
+				has_valid_civic = civic_indentured_assets
+				AND = {
+					has_valid_civic = civic_franchising
+					has_policy_flag = slavery_allowed
+				}
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { has_valid_civic = civic_indentured_assets }
+			}
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = Root
+					subject_type = verdebtor
+				}
+			}
+			# I mean... Pops? Really? That easy?
+		}
+	}
 }
 
 ### Subjects taxation

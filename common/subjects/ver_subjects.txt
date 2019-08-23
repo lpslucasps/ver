@@ -122,10 +122,7 @@ verappendage = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
@@ -266,10 +263,7 @@ verautonomous = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
@@ -277,7 +271,8 @@ verautonomous = {
 				from = {
 					NOR = {
 						is_pacifist = yes
-						has_civic = civic_machine_servitor
+						has_valid_civic = civic_machine_servitor
+						has_valid_civic = civic_feudal_realm
 					}
 				}
 			}
@@ -406,16 +401,16 @@ verbeneficiary = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
-					is_xenophile = no
+					NOR = {
+						is_xenophile = yes
+						has_valid_civic = civic_feudal_realm
+					}
 				}
 			}
 			country_event = { id = ver.11 }
@@ -547,18 +542,11 @@ verdisciple = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
-			limit = {
-				from = {
-					is_spiritualist = no
-				}
-			}
+			limit = {	from = { is_spiritualist = no }	}
 			country_event = { id = ver.11 }
 			break = yes
 		}
@@ -688,16 +676,16 @@ verfoederatus = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
-					is_militarist = no
+					NOR = {
+						is_militarist = yes
+						has_valid_civic = civic_feudal_realm
+					}
 				}
 			}
 			country_event = { id = ver.11 }
@@ -833,16 +821,16 @@ verjrpartner = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
-					is_materialist = no
+					NOR = {
+						is_materialist = yes
+						has_valid_civic = civic_feudal_realm
+					}
 				}
 			}
 			country_event = { id = ver.11 }
@@ -975,16 +963,16 @@ verpuppet = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
-					is_authoritarian = no
+					NOR = {
+						is_authoritarian = yes
+						has_valid_civic = civic_feudal_realm
+					}
 				}
 			}
 			country_event = { id = ver.11 }
@@ -1119,16 +1107,16 @@ verserf = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
-					is_xenophobe = no
+					NOR = {
+						is_xenophobe = yes
+						has_valid_civic = civic_feudal_realm
+					}
 				}
 			}
 			country_event = { id = ver.11 }
@@ -1256,16 +1244,16 @@ versister = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
-					is_egalitarian = no
+					NOR = {
+						is_egalitarian = yes
+						has_valid_civic = civic_feudal_realm
+					}
 				}
 			}
 			country_event = { id = ver.11 }
@@ -1397,17 +1385,14 @@ verorganic = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
 					OR = {
-						has_civic = civic_machine_servitor
+						has_valid_civic = civic_machine_servitor
 						NOT = { has_authority = auth_machine_intelligence }
 					}
 				}
@@ -1537,10 +1522,7 @@ verparallel = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
@@ -1674,18 +1656,15 @@ verblood = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			set_subject_of = {
-				who = from
-				subject_type = subsidiary
-			}
+			country_event = { id = ver.11 }
 			break = yes
 		}
 		if = {
 			limit = {
 				from = {
 					NOR = {
-						has_civic = civic_barbaric_despoilers
-						has_civic = civic_slaver_guilds
+						has_valid_civic = civic_barbaric_despoilers
+						has_valid_civic = civic_slaver_guilds
 					}
 				}
 			}
