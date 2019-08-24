@@ -12,6 +12,8 @@ In my opinion, to live under the yoke of an authoritarian-xenophobe empire shoul
 
 Some overlord-subject relations are more predatory than others, others are quite benevolent. Not all types of subjects are advantageous, so think before you choose!
 
+Corporations have Subject Types analogous to the ones of the Default Empires, but, in their case, what decides which subject types you have access to is your civics, not ethics.
+
 Machine intelligences have their own set of subject types (two for now).
 
 ### New Policy: Taxation of Subject Empires
