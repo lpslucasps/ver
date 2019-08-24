@@ -2,7 +2,7 @@
 
 namespace = vermain
 
-# vermain.10: Transform Vassals into custom subject types. Called monthly.
+# vermain.10: Call ver.11, which transform Vassals into custom subject types. (on_monthly_pulse_country)
 country_event = {
 	id = vermain.10
 	hide_window = yes
@@ -32,7 +32,7 @@ country_event = {
 	}
 }
 
-# vermain.11: Removes no longer applicable modifiers. Called monthly.
+# vermain.11: Removes no longer applicable modifiers. (on_monthly_pulse)
 event = {
 	id = vermain.11
 	hide_window = yes
@@ -71,6 +71,7 @@ event = {
 				has_modifier = ver_military_subsidies
 				OR = {
 					NOT = { is_subject_type = verfoederatus }
+					NOT = { is_subject_type = verarmsdealer }
 					is_at_war_with = overlord
 				}
 			}
@@ -94,7 +95,7 @@ event = {
 			limit = {
 				has_modifier = ver_kobun_malus
 				OR = {
-					NOT = { is_subject_type = kobun }
+					NOT = { is_subject_type = verkobun }
 					is_at_war_with = overlord
 				}
 			}
@@ -136,7 +137,7 @@ event = {
 	}
 }
 
-# vermain.12: Reapply modifiers. Called monthly.
+# vermain.12: Reapply modifiers. (on_monthly_pulse)
 event = {
 	id = vermain.12
 	hide_window = yes
@@ -152,6 +153,19 @@ event = {
 				}
 			}
 			add_modifier = { modifier = ver_demilitarized days = -1 }
+		}
+		every_country = {
+			limit = {
+				OR = {
+					is_subject_type = verfoederatus
+					is_subject_type = verarmsdealer
+				}
+				NOR = {
+					has_modifier = ver_military_subsidies
+					is_at_war_with = overlord
+				}
+			}
+			add_modifier = { modifier = ver_military_subsidies days = -1 }
 		}
 		every_country = {
 			limit = {
@@ -254,7 +268,7 @@ country_event = {
 	}
 }
 
-# vermain.2: Select all countries which are taxing subjects. Called monthly.
+# vermain.2: Select all countries which are taxing subjects. (on_monthly_pulse_country)
 country_event = {
 	id = vermain.2
 	hide_window = yes
@@ -313,7 +327,12 @@ country_event = {
 		}
 
 		# Apply trade value bonus to the overlord capital
-		country_event = { id = vermain.22 }
+		ver_apply_taxes_bonuses = yes
+
+	}
+
+	after = {
+		set_variable = { which = ver_subjects_trade value = 0 }
 	}
 }
 
@@ -328,280 +347,65 @@ country_event = {
 			solar_system = {
 				switch = {
 					trigger = trade_route_value
-					5 > { overlord = { change_variable = { which = ver_subjects_trade value = 1 } } }
-					10 > { overlord = { change_variable = { which = ver_subjects_trade value = 5 } } }
-					25 > { overlord = { change_variable = { which = ver_subjects_trade value = 10 } } }
-					50 > { overlord = { change_variable = { which = ver_subjects_trade value = 25 } } }
-					75 > { overlord = { change_variable = { which = ver_subjects_trade value = 50 } } }
-					100 > { overlord = { change_variable = { which = ver_subjects_trade value = 75 } } }
-					125 > { overlord = { change_variable = { which = ver_subjects_trade value = 100 } } }
-					150 > { overlord = { change_variable = { which = ver_subjects_trade value = 125 } } }
-					175 > { overlord = { change_variable = { which = ver_subjects_trade value = 150 } } }
-					200 > { overlord = { change_variable = { which = ver_subjects_trade value = 175 } } }
-					225 > { overlord = { change_variable = { which = ver_subjects_trade value = 200 } } }
-					250 > { overlord = { change_variable = { which = ver_subjects_trade value = 225 } } }
-					275 > { overlord = { change_variable = { which = ver_subjects_trade value = 250 } } }
-					300 > { overlord = { change_variable = { which = ver_subjects_trade value = 275 } } }
-					350 > { overlord = { change_variable = { which = ver_subjects_trade value = 300 } } }
-					400 > { overlord = { change_variable = { which = ver_subjects_trade value = 350 } } }
-					450 > { overlord = { change_variable = { which = ver_subjects_trade value = 400 } } }
-					500 > { overlord = { change_variable = { which = ver_subjects_trade value = 450 } } }
-					600 > { overlord = { change_variable = { which = ver_subjects_trade value = 500 } } }
-					700 > { overlord = { change_variable = { which = ver_subjects_trade value = 600 } } }
-					800 > { overlord = { change_variable = { which = ver_subjects_trade value = 700 } } }
-					900 > { overlord = { change_variable = { which = ver_subjects_trade value = 800 } } }
-					1000 > { overlord = { change_variable = { which = ver_subjects_trade value = 900 } } }
-					1250 > { overlord = { change_variable = { which = ver_subjects_trade value = 1000 } } }
-					1500 > { overlord = { change_variable = { which = ver_subjects_trade value = 1250 } } }
-					1750 > { overlord = { change_variable = { which = ver_subjects_trade value = 1500 } } }
-					2000 > { overlord = { change_variable = { which = ver_subjects_trade value = 1750 } } }
-					2250 > { overlord = { change_variable = { which = ver_subjects_trade value = 2000 } } }
-					2500 > { overlord = { change_variable = { which = ver_subjects_trade value = 2250 } } }
-					2750 > { overlord = { change_variable = { which = ver_subjects_trade value = 2500 } } }
-					3000 > { overlord = { change_variable = { which = ver_subjects_trade value = 2750 } } }
-					3250 > { overlord = { change_variable = { which = ver_subjects_trade value = 3000 } } }
-					3500 > { overlord = { change_variable = { which = ver_subjects_trade value = 3250 } } }
-					3750 > { overlord = { change_variable = { which = ver_subjects_trade value = 3500 } } }
-					4000 > { overlord = { change_variable = { which = ver_subjects_trade value = 3750 } } }
-					4250 > { overlord = { change_variable = { which = ver_subjects_trade value = 4000 } } }
-					4500 > { overlord = { change_variable = { which = ver_subjects_trade value = 4250 } } }
-					4750 > { overlord = { change_variable = { which = ver_subjects_trade value = 4500 } } }
-					5000 > { overlord = { change_variable = { which = ver_subjects_trade value = 4750 } } }
-					5500 > { overlord = { change_variable = { which = ver_subjects_trade value = 5000 } } }
-					6000 > { overlord = { change_variable = { which = ver_subjects_trade value = 5500 } } }
-					6500 > { overlord = { change_variable = { which = ver_subjects_trade value = 6000 } } }
-					7000 > { overlord = { change_variable = { which = ver_subjects_trade value = 6500 } } }
-					7500 > { overlord = { change_variable = { which = ver_subjects_trade value = 7000 } } }
-					8000 > { overlord = { change_variable = { which = ver_subjects_trade value = 7500 } } }
-					8500 > { overlord = { change_variable = { which = ver_subjects_trade value = 8000 } } }
-					9000 > { overlord = { change_variable = { which = ver_subjects_trade value = 8500 } } }
-					9500 > { overlord = { change_variable = { which = ver_subjects_trade value = 9000 } } }
-					10000 > { overlord = { change_variable = { which = ver_subjects_trade value = 9500 } } }
-					default = { overlord = { change_variable = { which = ver_subjects_trade value = 10000 } } }
+					5 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 1 } } }
+					10 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 5 } } }
+					25 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 10 } } }
+					50 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 25 } } }
+					75 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 50 } } }
+					100 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 75 } } }
+					125 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 100 } } }
+					150 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 125 } } }
+					175 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 150 } } }
+					200 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 175 } } }
+					225 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 200 } } }
+					250 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 225 } } }
+					275 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 250 } } }
+					300 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 275 } } }
+					350 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 300 } } }
+					400 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 350 } } }
+					450 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 400 } } }
+					500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 450 } } }
+					600 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 500 } } }
+					700 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 600 } } }
+					800 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 700 } } }
+					900 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 800 } } }
+					1000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 900 } } }
+					1250 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 1000 } } }
+					1500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 1250 } } }
+					1750 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 1500 } } }
+					2000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 1750 } } }
+					2250 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 2000 } } }
+					2500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 2250 } } }
+					2750 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 2500 } } }
+					3000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 2750 } } }
+					3250 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 3000 } } }
+					3500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 3250 } } }
+					3750 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 3500 } } }
+					4000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 3750 } } }
+					4250 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 4000 } } }
+					4500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 4250 } } }
+					4750 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 4500 } } }
+					5000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 4750 } } }
+					5500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 5000 } } }
+					6000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 5500 } } }
+					6500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 6000 } } }
+					7000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 6500 } } }
+					7500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 7000 } } }
+					8000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 7500 } } }
+					8500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 8000 } } }
+					9000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 8500 } } }
+					9500 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 9000 } } }
+					10000 < { owner.overlord = { change_variable = { which = ver_subjects_trade value = 9500 } } }
+					default = { owner.overlord = { change_variable = { which = ver_subjects_trade value = 10000 } } }
 				}
 			}
 		}
 	}
 }
 
-# vermain.22: Apply modifier to overlord trade
+# vermain.22: If the country has no more subjects, remove trade bonus. (on_monthly_pulse)
 country_event = {
 	id = vermain.22
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		ver_remove_taxes_bonuses = yes
-
-		if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 0 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 5 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_1 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 10 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_2 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 25 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_3 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 50 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_4 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 75 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_5 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 100 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_6 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 125 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_7 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 150 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_8 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 175 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_9 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 200 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_10 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 225 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_11 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 250 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_12 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 275 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_13 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 300 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_14 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 350 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_15 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 400 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_16 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 450 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_17 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_18 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 600 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_19 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 700 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_20 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 800 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_21 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 900 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_22 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 1000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_23 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 1250 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_24 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 1500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_25 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 1750 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_26 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 2000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_27 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 2250 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_28 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 2500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_29 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 2750 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_30 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 3000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_31 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 3250 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_32 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 3500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_33 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 3750 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_34 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 4000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_35 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 4250 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_36 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 4500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_37 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 4750 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_38 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 5000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_39 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 5500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_40 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 6000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_41 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 6500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_42 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 7000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_43 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 7500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_44 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 8000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_45 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 8500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_46 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 9000 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_47 days = -1 } }
-		}
-		else_if = {
-			limit = { check_variable = { which = ver_subjects_trade value <= 9500 } }
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_48 days = -1 } }
-		}
-		else = {
-			capital_scope = { add_modifier = { modifier = ver_subjects_taxes_49 days = -1 } }
-		}
-	}
-
-	after = {
-		# Reset variable to 0 after using it, so it doesn't take memmory space
-		set_variable = { which = ver_subjects_trade value = 0 }
-	}
-}
-
-# If the country has no more subjects, remove trade bonus. Called monthly.
-event = {
-	id = vermain.23
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -618,9 +422,9 @@ event = {
 	}
 }
 
-# Apply taxes to any newly-acquired subject. Monthly pulse.
+# vermain.23: Apply taxes to any newly-acquired subject. (on_monthly_pulse_country)
 country_event = {
-	id = vermain.24
+	id = vermain.23
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -642,18 +446,35 @@ country_event = {
 		ver_remove_overlord_taxes = yes
 		if = {
 			limit = { overlord = { has_policy_flag = ver_light_taxes } }
-			add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
+			if = {
+				limit = { NOT = { has_modifier = ver_light_overlord_taxes } }
+				ver_remove_overlord_taxes = yes
+				add_modifier = { modifier = ver_light_overlord_taxes days = -1 }
+			}
 		}
 		else_if = {
 			limit = { overlord = { has_policy_flag = ver_moderate_taxes } }
-			add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
+			if = {
+				limit = { NOT = { has_modifier = ver_moderate_overlord_taxes } }
+				ver_remove_overlord_taxes = yes
+				add_modifier = { modifier = ver_moderate_overlord_taxes days = -1 }
+			}
 		}
 		else_if = {
 			limit = { overlord = { has_policy_flag = ver_heavy_taxes } }
-			add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
+			if = {
+				limit = { NOT = { has_modifier = ver_heavy_overlord_taxes } }
+				ver_remove_overlord_taxes = yes
+				add_modifier = { modifier = ver_heavy_overlord_taxes days = -1 }
+			}
 		}
-		else = {
-			add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
+		else_if = {
+			limit = { overlord = { has_policy_flag = ver_burdensome_taxes } }
+			if = {
+				limit = { NOT = { has_modifier = ver_burdensome_overlord_taxes } }
+				ver_remove_overlord_taxes = yes
+				add_modifier = { modifier = ver_burdensome_overlord_taxes days = -1 }
+			}
 		}
 	}
 }
@@ -678,14 +499,6 @@ country_event = {
 	}
 
 	immediate = {
-		random_subject = {
-			limit = {
-				OR = {
-					is_subject_type = verblood
-					is_subject_type = verkobun
-				}
-			save_event_target_as = ver_blood_tributary
-		}
 		country_event = { id = ver.40 days = 300 random = 600 }
 	}
 }

@@ -122,7 +122,7 @@ verappendage = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -131,7 +131,7 @@ verappendage = {
 					NOT = { has_authority = auth_hive_mind }
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -263,7 +263,7 @@ verautonomous = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -276,7 +276,7 @@ verautonomous = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -401,7 +401,7 @@ verbeneficiary = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -413,7 +413,7 @@ verbeneficiary = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -542,12 +542,12 @@ verdisciple = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
 			limit = {	from = { is_spiritualist = no }	}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -676,7 +676,7 @@ verfoederatus = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -688,7 +688,7 @@ verfoederatus = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -821,7 +821,7 @@ verjrpartner = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -833,7 +833,7 @@ verjrpartner = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -963,7 +963,7 @@ verpuppet = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -975,7 +975,7 @@ verpuppet = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -1107,7 +1107,7 @@ verserf = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1119,7 +1119,7 @@ verserf = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -1244,7 +1244,7 @@ versister = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1256,7 +1256,7 @@ versister = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -1385,7 +1385,7 @@ verorganic = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1397,7 +1397,7 @@ verorganic = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -1522,7 +1522,7 @@ verparallel = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1531,7 +1531,7 @@ verparallel = {
 					NOT = { has_authority = auth_machine_intelligence }
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -1656,7 +1656,7 @@ verblood = {
 			limit = {
 				from = { has_authority = auth_corporate }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1668,7 +1668,7 @@ verblood = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1681,7 +1681,7 @@ verblood = {
 				who = from
 				subject_type = vassal
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}

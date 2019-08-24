@@ -38,12 +38,15 @@ country_event = {
 	}
 
 	immediate = {
-		if = {
-			limit = { NOT = { has_authority = auth_corporate } }
-			overlord = { country_event = { id = ver.100 } }
-		}
-		else = {
-			overlord = { country_event = { id = ver.101 } }
+		overlord = {
+			if = {
+				limit = { NOT = { has_authority = auth_corporate } }
+				country_event = { id = ver.100 }
+			}
+			else_if = {
+				limit = { has_authority = auth_corporate }
+				country_event = { id = ver.101 }
+			}
 		}
 	}
 }
@@ -225,9 +228,7 @@ country_event = {
 				has_valid_civic = civic_feudal_realm
 			}
 			from = {
-				NOT = {
-					is_pacifist = yes
-				}
+				is_pacifist = no
 			}
 		}
 		ai_chance = {
@@ -515,7 +516,6 @@ country_event = {
 					who = ROOT
 					subject_type = verblood
 				}
-				save_event_target_as = ver_blood_tributary
 			}
 			country_event = { id = ver.40 }
 		}
@@ -532,6 +532,23 @@ country_event = {
 	location = From
 
 	is_triggered_only = yes
+
+	# Keep it as a subsidiary
+	option = {
+		name = ver.101.subsidiary
+		custom_tooltip = ver.101.subsidiary.tooltip
+		ai_chance = {
+			factor = 100
+		}
+		hidden_effect = {
+			From = {
+				set_subject_of = {
+					who = Root
+					subject_type = versubsidiary
+				}
+			}
+		}
+	}
 
 	# Transform into Devotee (Brand Loyalty)
 	option = {
@@ -590,7 +607,7 @@ country_event = {
 
 	# Transform into Supplier (Free Traders)
 	option = {
-		name.101.supplier
+		name = ver.101.supplier
 		custom_tooltip = ver.101.supplier.tooltip
 		trigger = {
 			OR = {
@@ -616,7 +633,7 @@ country_event = {
 	}
 
 	# Transform into Worshipper (Gospel of the Masses)
-	verworshipper = {
+	option = {
 		name = ver.101.worshipper
 		custom_tooltip = ver.101.worshipper.tooltip
 		trigger = { has_valid_civic = civic_gospel_of_the_masses }
@@ -628,13 +645,13 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			From
+			From = {
 				set_subject_of = {
 					who = Root
 					subject_type = verworshipper
 				}
+				add_modifier = { modifier = ver_overlord_indoctrination days = -1 }
 			}
-			add_modifier = { modifier = ver_overlord_indoctrination days = -1 }
 		}
 	}
 
@@ -665,14 +682,14 @@ country_event = {
 					subject_type = verdebtor
 				}
 			}
-			# todo: blood tax event
+			country_event = { id = ver.40 }
 		}
 	}
 
-	# Transform into viewer (Media Conglomerate)
+	# Transform into subscriber (Media Conglomerate)
 	option = {
-		name = ver.101.viewer
-		custom_tooltip = ver.101.viewer.tooltip
+		name = ver.101.subscriber
+		custom_tooltip = ver.101.subscriber.tooltip
 		trigger = {
 			OR = {
 				has_valid_civic = civic_media_conglomerate
@@ -690,7 +707,7 @@ country_event = {
 			From = {
 				set_subject_of = {
 					who = Root
-					subject_type = verviewer
+					subject_type = versubscriber
 				}
 			}
 		}
@@ -698,13 +715,16 @@ country_event = {
 
 	# Transform into Arms Dealer (Private Military Companies or Naval Contractors)
 	option = {
-		name = ver.101.verarmsdealer
-		custom_tooltip = ver.101.verarmsdealer.tooltip
+		name = ver.101.armsdealer
+		custom_tooltip = ver.101.armsdealer.tooltip
 		trigger = {
 			OR = {
 				has_valid_civic = civic_private_military_companies
 				has_valid_civic = civic_naval_contractors
 				has_valid_civic = civic_franchising
+			}
+			From = {
+				is_pacifist = no
 			}
 		}
 		ai_chance = {
@@ -723,14 +743,15 @@ country_event = {
 					who = Root
 					subject_type = verarmsdealer
 				}
+				add_modifier = { modifier = ver_military_subsidies days = -1 }
 			}
 		}
 	}
 
 	# Transform into Subcontractor (Private Prospectors)
 	option = {
-		name = ver.101.versubcontractor
-		custom_tooltip = ver.101.versubcontractor.tooltip
+		name = ver.101.subcontractor
+		custom_tooltip = ver.101.subcontractor.tooltip
 		trigger = {
 			OR = {
 				has_valid_civic = civic_private_prospectors
@@ -756,8 +777,8 @@ country_event = {
 
 	# Transform into Dependency (Trading Posts or Ruthless Competition)
 	option = {
-		name = ver.101.verdependency
-		custom_tooltip = ver.101.verdependency.tooltip
+		name = ver.101.dependency
+		custom_tooltip = ver.101.dependency.tooltip
 		trigger = {
 			OR = {
 				has_valid_civic = civic_trading_posts
@@ -1480,58 +1501,96 @@ country_event = {
 	trigger = {
 		is_overlord = yes
 		any_subject = {
-			is_subject_type = verblood
+			OR = {
+				is_subject_type = verblood
+				is_subject_type = verdebtor
+			}
 			NOT = { is_at_war_with = overlord }
 		}
 	}
 
 	immediate = {
-		set_variable = { which = ver_blood_tributary_population value = 0 }
-		event_target:ver_blood_tributary = {
+		set_variable = { which = ver_blood_tributary_total_population value = 0 }
+		every_subject = {
+			limit = {
+				OR = {
+					is_subject_type = verblood
+					is_subject_type = verdebtor
+				}
+				NOT = { is_at_war_with = overlord }
+			}
+			set_country_flag = ver_blood_tributary
 			every_owned_pop = {
-				ROOT = {
-					change_variable = { which = ver_blood_tributary_population value = 1 }
+				Root = {
+					change_variable = { which = ver_blood_tributary_total_population value = 1 }
 				}
 			}
 		}
 
-		divide_variable = { which = ver_blood_tributary_population value = 10 }
+		if = {
+			limit = { NOT = { has_authority = auth_corporate } }
+			divide_variable = { which = ver_blood_tributary_total_population value = 10 }
+		}
+		else_if = {
+			limit = { has_authority = auth_corporate }
+			divide_variable = { which = ver_blood_tributary_total_population value = 20 }
+		}
 	}
 
 	# Distribute them among our worlds
 	option = {
 		name = ver.40.distribute
-		custom_tooltip =	ver.40.distribute.tooltip
+		custom_tooltip = ver.40.distribute.tooltip
 
 		hidden_effect = {
-			while = {
-				count = ver_blood_tributary_population
-
-				event_target:ver_blood_tributary = {
-					random_owned_planet = {
-						limit = {
-							num_pops > 1
-						}
-						random_pop = {
-							species = { save_event_target_as = blood_tribute_species }
-							kill_pop = yes
-						}
+			set_variable = { which = ver_blood_tributary_total_population value = 0 }
+			every_subject = {
+				limit = { has_country_flag = ver_blood_tributary }
+				every_owned_pop = {
+					Root = {
+						change_variable = { which = ver_blood_tributary_total_population value = 1 }
 					}
 				}
-
-				if = {
-					limit = { any_planet = { free_housing > 0 } }
-					random_owned_planet = {
-						limit = { free_housing > 0 }
-						create_pop = {
-							species = event_target:blood_tribute_species
-						}
+				Root = {
+					if = {
+						limit = { NOT = { has_authority = auth_corporate } }
+						divide_variable = { which = ver_blood_tributary_total_population value = 10 }
 					}
-				}
-				else = {
-					random_owned_planet = {
-						create_pop = {
-							species = event_target:blood_tribute_species
+					else_if = {
+						limit = { has_authority = auth_corporate }
+						divide_variable = { which = ver_blood_tributary_total_population value = 20 }
+					}
+
+					while = {
+						count = ver_blood_tributary_total_population
+
+						Prev = {
+							random_owned_planet = {
+								limit = {
+									num_pops > 1
+								}
+								random_pop = {
+									species = { save_event_target_as = blood_tribute_species }
+									kill_pop = yes
+								}
+							}
+						}
+
+						if = {
+							limit = { any_owned_planet = { free_housing > 0 } }
+							random_owned_planet = {
+								limit = { free_housing > 0 }
+								create_pop = {
+									species = event_target:blood_tribute_species
+								}
+							}
+						}
+						else = {
+							random_owned_planet = {
+								create_pop = {
+									species = event_target:blood_tribute_species
+								}
+							}
 						}
 					}
 				}
@@ -1540,45 +1599,53 @@ country_event = {
 		}
 	}
 
-	# Distribute them among our Thrall worlds
+	# Distribute them among our worlds
 	option = {
-		name = ver.40.thrall
-		custom_tooltip =	ver.40.thrall.tooltip
-		trigger = { any_planet = { has_modifier = slave_colony } }
+		name = ver.40.distribute
+		custom_tooltip = ver.40.distribute.tooltip
+		trigger = { any_owned_planet = { has_modifier = slave_colony } }
 
 		hidden_effect = {
-			while = {
-				count = ver_blood_tributary_population
+			set_variable = { which = ver_blood_tributary_total_population value = 0 }
+			every_subject = {
+				limit = { has_country_flag = ver_blood_tributary }
+				every_owned_pop = {
+					Root = {
+						change_variable = { which = ver_blood_tributary_total_population value = 1 }
+					}
+				}
+				Root = {
+					if = {
+						limit = { NOT = { has_authority = auth_corporate } }
+						divide_variable = { which = ver_blood_tributary_total_population value = 10 }
+					}
+					else_if = {
+						limit = { has_authority = auth_corporate }
+						divide_variable = { which = ver_blood_tributary_total_population value = 20 }
+					}
 
-				event_target:ver_blood_tributary = {
-					random_owned_planet = {
-						limit = {
-							num_pops > 1
+					while = {
+						count = ver_blood_tributary_total_population
+
+						Prev = {
+							random_owned_planet = {
+								limit = {
+									num_pops > 1
+								}
+								random_pop = {
+									species = { save_event_target_as = blood_tribute_species }
+									kill_pop = yes
+								}
+							}
 						}
-						random_pop = {
-							species = { save_event_target_as = blood_tribute_species }
-							kill_pop = yes
+						random_owned_planet = {
+							limit = { has_modifier = slave_colony }
+							create_pop = {
+								species = event_target:blood_tribute_species
+							}
 						}
 					}
 				}
-
-				if = {
-					limit = { any_planet = { free_housing > 0 } }
-					random_owned_planet = {
-						limit = { free_housing > 0 }
-						create_pop = {
-							species = event_target:blood_tribute_species
-						}
-					}
-				}
-				else = {
-					random_owned_planet = {
-						create_pop = {
-							species = event_target:blood_tribute_species
-						}
-					}
-				}
-
 			}
 		}
 	}
@@ -1586,7 +1653,11 @@ country_event = {
 	after = {
 		hidden_effect = {
 			set_timed_country_flag = { flag = ver_recent_blood_tribute days = 5400 }
-			set_variable = { which = ver_blood_tributary_population value = 0 }
+			set_variable = { which = ver_blood_tributary_total_population value = 0 }
+			every_subject = {
+				limit = { has_country_flag = ver_blood_tributary }
+				remove_country_flag = ver_blood_tributary
+			}
 		}
 	}
 }

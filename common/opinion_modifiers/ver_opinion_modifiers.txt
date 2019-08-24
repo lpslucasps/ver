@@ -15,7 +15,10 @@ ver_triggered_opinion_serfdom = {
 # Blood Tributary's opinion of overlord
 ver_triggered_opinion_blood = {
 	trigger = {
-		is_subject_type = verblood
+		OR = {
+			is_subject_type = verblood
+			is_subject_type = verkobun
+		}
 		FROM = {
 			any_subject = { is_same_value = ROOT }
 		}
@@ -23,6 +26,20 @@ ver_triggered_opinion_blood = {
 
 	opinion = {
 		base = -1000
+	}
+}
+
+# Subscriber opinion of Overlord
+ver_triggered_opinion_subscriber = {
+	trigger = {
+		is_subject_type = versubscriber
+		From = {
+			any_subject = { is_same_value = ROOT }
+		}
+	}
+
+	opinion = {
+		base = 50
 	}
 }
 

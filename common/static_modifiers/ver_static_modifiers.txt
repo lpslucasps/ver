@@ -18,6 +18,11 @@ ver_puppet_state = {
 	planet_stability_add = -10
 }
 
+# Kobun crime malus
+ver_kobun_malus= {
+	planet_crime_add = 50
+}
+
 # Parallel Processors
 ver_parallel_processors_1 = {
 	all_technology_research_speed = 0.05

@@ -1,5 +1,5 @@
 
-#Generic
+# Generic
 versubsidiary = {
 	can_expand = yes
 	can_be_integrated = no
@@ -119,7 +119,7 @@ versubsidiary = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -246,7 +246,7 @@ verdevotee = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -258,7 +258,7 @@ verdevotee = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -385,7 +385,7 @@ verkobun = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -397,7 +397,7 @@ verkobun = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -414,7 +414,7 @@ versupplier = {
 	diplo_threat = 1.5
 
 	subject_tax_rate = {
-		energy = 0.15
+		energy = 0.10
 		consumer_goods = 0.10
 	}
 
@@ -524,7 +524,7 @@ versupplier = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -536,7 +536,7 @@ versupplier = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -663,12 +663,12 @@ verworshipper = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
 			limit = { NOT = { has_valid_civic = civic_gospel_of_the_masses } }
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -790,7 +790,7 @@ verdebtor = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -805,14 +805,14 @@ verdebtor = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
 }
 
 # Media Conglomerate
-verviewer = {
+versubscriber = {
 	can_expand = yes
 	can_be_integrated = no
 	joins_overlord_wars = yes
@@ -938,7 +938,7 @@ verviewer = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -950,7 +950,7 @@ verviewer = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 		}
 	}
 }
@@ -1076,7 +1076,7 @@ verarmsdealer = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1089,7 +1089,7 @@ verarmsdealer = {
 					}
 				}
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 	}
@@ -1104,6 +1104,8 @@ versubcontractor = {
 	can_do_diplomacy = yes
 
 	diplo_threat = 1.5
+
+	tech_cost_mult = -0.30
 
 	subject_tax_rate = {
 		energy = 0.10
@@ -1218,7 +1220,7 @@ versubcontractor = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
@@ -1356,7 +1358,7 @@ verdependency = {
 			limit = {
 				from = { NOT = { has_authority = auth_corporate } }
 			}
-			country_event = { id = ver.11 }
+			country_event = { id = ver.11 days = 1 }
 			break = yes
 		}
 		if = {
