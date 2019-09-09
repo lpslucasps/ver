@@ -17,7 +17,7 @@ ver_triggered_opinion_blood = {
 	trigger = {
 		OR = {
 			is_subject_type = verblood
-			is_subject_type = verkobun
+			is_subject_type = verdebtor
 		}
 		FROM = {
 			any_subject = { is_same_value = ROOT }
