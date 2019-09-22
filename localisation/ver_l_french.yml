@@ -1,4 +1,4 @@
-l_french:
+﻿l_french:
   ##### Subject types #####
   SUBJECT_verappendage: "Appendage"
   SUBJECT_DESC_verappendage: "Appendages pay §Y25%§! of their monthly Food in tribute to their Overlord and can be integrated. This type of subject may expand peacefully or through war. Their Overlord will come to their protection in cases of agression, but will also call them to their own wars.\n\nCan Expand: £trigger_yes£\nCan Wage War: £trigger_yes£\nProtected: £trigger_yes£\nJoins Overlord's Wars: £trigger_yes£\nCan Integrate: £trigger_yes£\nTribute: §Y25%§! £food£ §HFood§!"
