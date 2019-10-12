@@ -11,7 +11,16 @@ country_event = {
 
 	immediate = {
 		if = {
-			limit = { is_overlord = yes }
+			limit = {
+				is_country_type = default
+				is_overlord = yes
+				any_subject = {
+					OR = {
+						is_subject_type = vassal
+						is_subject_type = subsidiary
+					}
+				}
+			}
 			every_subject = {
 				limit = {
 					OR = {
